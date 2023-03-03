@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:somfixapp/onbarding_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -36,8 +38,11 @@ class Mainapp extends StatefulWidget {
   State<Mainapp> createState() => _MainappState();
 }
 
+// iconbool used to change  the app theme is light or dark
 bool _iconbool = false;
+// light icon
 IconData _iconlight = Icons.wb_sunny;
+// dark icon
 IconData _icondark = Icons.nights_stay;
 
 // light theme
@@ -52,25 +57,28 @@ class _MainappState extends State<Mainapp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      //if iconbool is true change to dark theme else change to light theme
       theme: _iconbool ? _darktheme : _lightTheme,
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          actions: [
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    _iconbool = !_iconbool;
-                  });
-                },
-                icon: Icon(
-                  _iconbool ? _icondark : _iconlight,
-                  color: Colors.orange,
-                )),
-          ],
-        ),
-        body: Column(children: []),
+        // changes the theme from light to dark
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        //   elevation: 0,
+        //   actions: [
+        //     IconButton(
+        //         onPressed: () {
+        //           setState(() {
+        //             _iconbool = !_iconbool;
+        //           });
+        //         },
+        //         icon: Icon(
+        //           _iconbool ? _icondark : _iconlight,
+        //           color: Colors.orange,
+        //         )),
+        //   ],
+        // ),
+        body: OnboardingScreen(),
       ),
     );
   }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "33547640272",
+    "project_id": "finalproject-ccdba",
+    "storage_bucket": "finalproject-ccdba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:33547640272:android:2a295836b5be0f0727edd5",
+        "android_client_info": {
+          "package_name": "com.example.somfixapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "33547640272-m7mb62e60hen7feb5do37cm8hcglbe8c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRwCPqFF5BlAnIUQJGy-pM9C_B-c3_0PU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "33547640272-m7mb62e60hen7feb5do37cm8hcglbe8c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:somfixapp/onboarding_screens/screen1.dart';
 import 'package:somfixapp/onboarding_screens/screen2.dart';
 import 'package:somfixapp/onboarding_screens/screen3.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'mainscreens/login.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -12,7 +15,13 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  // lastpage check
+  _StoreOnBoard() async {
+    int isviewed = 0;
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setInt('onboard', isviewed);
+    // print(isviewed);
+  } // lastpage check
+
   bool onlastpage = false;
   PageController _controller = PageController();
   @override
@@ -40,14 +49,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               // skip text
               GestureDetector(
                 onTap: () {
+                  _StoreOnBoard();
                   _controller.jumpToPage(2);
                 },
                 child: Text(
                   'Skip',
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 17,
                       fontWeight: FontWeight.w600,
-                      color: Colors.grey[400]),
+                      color: Colors.indigo[500]),
                 ),
               ),
 
@@ -57,31 +67,43 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               onlastpage
                   ? GestureDetector(
                       onTap: () {
+                        _StoreOnBoard();
                         // navigator should go to login or singup page
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
                       },
-                      child: Text(
-                        'Done',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.indigo[500]),
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 11),
+                        decoration: BoxDecoration(
+                            color: Colors.green[700],
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Icon(
+                          Icons.check,
+                          color: Colors.white,
+                        ),
                       ),
                     )
-                  // next text
 
+                  // next text
                   : GestureDetector(
                       onTap: () {
                         _controller.nextPage(
                             duration: Duration(milliseconds: 500),
                             curve: Curves.easeIn);
                       },
-                      child: Text(
-                        'Next',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.indigo[500]),
-                      ),
+                      child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 11),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.black,
+                          )),
                     ),
             ],
           ),

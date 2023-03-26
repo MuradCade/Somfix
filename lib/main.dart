@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:somfixapp/onbarding_screen.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:somfixapp/resources/intro-screen.dart';
 
 import 'splashscreen.dart';
 import 'mainscreens/login.dart';
@@ -40,8 +40,7 @@ class _MyAppState extends State<MyApp> {
         splashTransition: SplashTransition.fadeTransition,
         // duration: 3000,
         splash: SplashScreen(),
-        nextScreen:
-            isviewed != 0 ? OnboardingScreen() : Text('welcome to login page'),
+        nextScreen: Introscreen(),
         // isviewed != 0 ? OnboardingScreen() : LoginScreen()
       ),
     );

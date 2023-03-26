@@ -18,6 +18,13 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Container(
@@ -36,14 +43,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 140,
                   )),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               Text(
                 'Login to your Account',
                 style: TextStyle(
                     color: Color(0xFFF4F4F4F),
                     fontSize: 16,
-                    fontWeight: FontWeight.w500),
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.5),
               ),
               SizedBox(
                 height: 15,

@@ -30,7 +30,7 @@ class _SignupPageState extends State<SignupPage> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.blue, //change your color here
+          color: Colors.black, //change your color here
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,

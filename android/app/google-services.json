@@ -1,13 +1,14 @@
 {
   "project_info": {
     "project_number": "33547640272",
+    "firebase_url": "https://finalproject-ccdba-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "finalproject-ccdba",
     "storage_bucket": "finalproject-ccdba.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:33547640272:android:2a295836b5be0f0727edd5",
+        "mobilesdk_app_id": "1:33547640272:android:800137dabfa0094b27edd5",
         "android_client_info": {
           "package_name": "com.example.somfixapp"
         }

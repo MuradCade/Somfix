@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:somfixapp/mainscreens/signup.dart';
 
-import '../resources/button.dart';
+import '../data/checklogin.dart';
+import '../data/loginauth.dart';
+import '../data/signinwithgoogle.dart';
 import '../resources/socials-login.dart';
 import '../resources/textform.dart';
 
@@ -15,12 +17,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController pwdcontroler = TextEditingController();
+  // instace of class called auth inside login-auth.dart file
+  final Authtication auth = Authtication();
+  // login with google class
+  final AuthService google = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+          color: Colors.transparent, //change your color here
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -39,8 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                   alignment: Alignment.center,
                   child: Image.asset(
-                    'assets/somfix-logo.png',
-                    height: 140,
+                    'assets/logo.png',
+                    height: 100,
+                    width: 160,
                   )),
               SizedBox(
                 height: 20,
@@ -79,45 +86,90 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
               // Login btn
-              LoginbtnGlobal(btntextvalue: 'Login'),
+              InkWell(
+                onTap: () async {
+                  String output = await auth.login(
+                      email: emailcontroller.text, password: pwdcontroler.text);
 
-              // social media login
+                  if (output == 'success') {
+                    print(output);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Checklogin()));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        output,
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w700),
+                      ),
+                      duration: const Duration(seconds: 1),
+                    ));
+                  }
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF1E319D),
+                    borderRadius: BorderRadius.circular(6),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 10,
+                      )
+                    ],
+                  ),
+                  child: Text(
+                    'Login',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18),
+                  ),
+                ),
+              ),
+              // Signin with google
               SizedBox(
                 height: 20,
               ),
-              ScialmediaGlobal(),
+              InkWell(
+                onTap: () {
+                  google.Signinwithgoogle();
+                },
+                child: ScialmediaGlobal(),
+              ),
               // forget password
+              SizedBox(
+                height: 20,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text(
+                  'Don\'t have an account yet!',
+                  style: TextStyle(fontSize: 15, color: Color(0xFFF4F4F4F)),
+                ),
+                SizedBox(
+                  width: 6,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignupPage()));
+                  },
+                  child: Text(
+                    'Create Account',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xFFF1E319D),
+                    ),
+                  ),
+                ),
+              ])
             ],
           ),
         ),
       )),
-      bottomNavigationBar: Container(
-        height: 50,
-        color: Colors.transparent,
-        alignment: Alignment.center,
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(
-            'Don\'t have an account yet!',
-            style: TextStyle(fontSize: 15, color: Color(0xFFF4F4F4F)),
-          ),
-          SizedBox(
-            width: 6,
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignupPage()));
-            },
-            child: Text(
-              'Create Account',
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFFF1E319D),
-              ),
-            ),
-          ),
-        ]),
-      ),
     );
   }
 }

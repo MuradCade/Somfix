@@ -1,7 +1,10 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
+import 'package:somfixapp/data/checklogin.dart';
 
-import '../resources/button.dart';
-import '../resources/socials-login.dart';
+import '../data/loginauth.dart';
+// import '../resources/button.dart';
+// import '../resources/socials-login.dart';
 import '../resources/textform.dart';
 
 class SignupPage extends StatefulWidget {
@@ -12,13 +15,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  String errormsg = ' ';
-
-  void displayerrormsg(error) {
-    setState(() {
-      errormsg = error;
-    });
-  }
+  String _result = '-1';
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +24,9 @@ class _SignupPageState extends State<SignupPage> {
     TextEditingController emailnamecontroller = TextEditingController();
     TextEditingController pwdcontroller = TextEditingController();
     TextEditingController phonecontroller = TextEditingController();
+    // instace of class called auth inside login-auth.dart file
+    final Authtication auth = Authtication();
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -61,23 +61,15 @@ class _SignupPageState extends State<SignupPage> {
               Container(
                 alignment: Alignment.center,
                 child: Text(
-                  'By Creating Account, you agree to our  \nterms and conditions',
+                  'By creating an account  you agree  with \n our terms and conditions',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Colors.grey[400]),
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                errormsg,
-                style: TextStyle(
-                    color: Color(0xFFF4F4F4F),
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500),
-              ),
+
               SizedBox(
                 height: 15,
               ),
@@ -128,20 +120,122 @@ class _SignupPageState extends State<SignupPage> {
               TextFormGlobal(
                 controller: pwdcontroller,
                 Textinputtype: TextInputType.emailAddress,
-                Obsecure: false,
+                Obsecure: true,
                 hintext: 'Password',
               ),
               SizedBox(
                 height: 10,
               ),
-              // Login btn
-              SignupbtnGlobal(
-                btntextvalue: 'Signup',
-                firstname: firstnamecontroller,
-                lastname: lastnamenamecontroller,
-                phone: phonecontroller,
-                email: emailnamecontroller,
-                pwd: pwdcontroller,
+              Row(
+                children: [
+                  SizedBox(
+                    width: 1,
+                  ),
+                  Text(
+                    'Select type of your account',
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: Colors.grey.shade700),
+                  ),
+                  SizedBox(
+                    width: 4,
+                  ),
+                  Icon(
+                    Icons.info,
+                    color: Colors.grey[700],
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
+              Padding(
+                padding: EdgeInsets.all(4),
+                child: Container(
+                  width: double.infinity,
+                  height: 55,
+                  padding: EdgeInsets.only(top: 3, left: 15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(6)),
+                  child: DropdownButtonFormField(
+                    value: _result,
+                    items: [
+                      const DropdownMenuItem(
+                        child: Text('Personal use'),
+                        value: '-1',
+                      ),
+                      const DropdownMenuItem(
+                        child: Text('Company use'),
+                        value: "1",
+                      ),
+                      const DropdownMenuItem(
+                        child: Text('Freelancer'),
+                        value: "2",
+                      )
+                    ],
+                    onChanged: (value) {
+                      _result = value!;
+                    },
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                height: 15,
+              ),
+              // Singup btn
+              InkWell(
+                onTap: () async {
+                  String output = await auth.createaccount(
+                      firstname: firstnamecontroller.text,
+                      lastname: lastnamenamecontroller.text,
+                      phone: phonecontroller.text,
+                      email: emailnamecontroller.text,
+                      password: pwdcontroller.text,
+                      role: _result);
+
+                  if (output == 'success') {
+                    // print(output);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Checklogin()));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(
+                        output,
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w700),
+                      ),
+                      duration: const Duration(seconds: 1),
+                    ));
+                  }
+                  print(firstnamecontroller.text);
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFF1E319D),
+                    borderRadius: BorderRadius.circular(6),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 10,
+                      )
+                    ],
+                  ),
+                  child: Text(
+                    'Create Account',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18),
+                  ),
+                ),
               ),
 
               // social media login

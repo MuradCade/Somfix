@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 
 // components of textfield
 
-class TextFormGlobal extends StatelessWidget {
-  const TextFormGlobal(
-      {super.key,
-      required this.controller,
-      required this.hintext,
-      this.Obsecure,
-      this.Textinputtype});
-
+class TextFormGlobal extends StatefulWidget {
+  TextFormGlobal({
+    required this.controller,
+    required this.hintext,
+    this.Obsecure,
+    this.Textinputtype,
+  });
   final TextEditingController controller;
   final String hintext;
   final Obsecure;
   final Textinputtype;
 
+  @override
+  State<TextFormGlobal> createState() => _TextFormGlobalState();
+}
+
+class _TextFormGlobalState extends State<TextFormGlobal> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,12 +33,12 @@ class TextFormGlobal extends StatelessWidget {
               blurRadius: 7,
             )
           ]),
-      child: TextField(
-        controller: controller,
-        keyboardType: Textinputtype,
-        obscureText: Obsecure,
+      child: TextFormField(
+        controller: widget.controller,
+        keyboardType: widget.Textinputtype,
+        obscureText: widget.Obsecure,
         decoration: InputDecoration(
-          hintText: hintext,
+          hintText: widget.hintext,
           border: InputBorder.none,
           contentPadding: EdgeInsets.all(0),
           hintStyle: TextStyle(height: 1),

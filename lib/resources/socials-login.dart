@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../mainscreens/forgetpwd.dart';
+
 class ScialmediaGlobal extends StatefulWidget {
   const ScialmediaGlobal({super.key});
 
@@ -15,7 +17,10 @@ class _ScialmediaGlobalState extends State<ScialmediaGlobal> {
         Container(
           alignment: Alignment.topRight,
           child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Forgetpwd()));
+              },
               child: Text(
                 'Forget Password',
                 style: TextStyle(
@@ -47,73 +52,46 @@ class _ScialmediaGlobalState extends State<ScialmediaGlobal> {
           width: MediaQuery.of(context).size.width * 0.8,
           child: Row(
             children: [
-              // google login
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 55,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.1),
-                          blurRadius: 10,
-                        )
-                      ]),
-                  child: Image.asset(
-                    'assets/google.png',
-                    height: 28,
-                  ),
+              // google login btn
+              Container(
+                width: 299,
+                height: 55,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(.1),
+                        blurRadius: 10,
+                      )
+                    ]),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Image.asset(
+                        'assets/google.png',
+                        height: 28,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 50,
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text('Continue With Google',
+                          style: TextStyle(fontSize: 17)),
+                    ),
+                  ],
                 ),
               ),
               // facebook login
               SizedBox(
                 width: 15,
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 55,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.1),
-                          blurRadius: 10,
-                        )
-                      ]),
-                  child: Image.asset(
-                    'assets/facebook.png',
-                    height: 28,
-                  ),
-                ),
-              ),
-
-              // twitter login
-              SizedBox(
-                width: 15,
-              ),
-
-              Expanded(
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 55,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.1),
-                          blurRadius: 10,
-                        )
-                      ]),
-                  child: Image.asset(
-                    'assets/twitter.png',
-                    height: 28,
-                  ),
-                ),
               ),
             ],
           ),

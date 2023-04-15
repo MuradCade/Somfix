@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:somfixapp/data/checklogin.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../data/loginauth.dart';
 // import '../resources/button.dart';
@@ -16,6 +17,7 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPageState extends State<SignupPage> {
   String _result = '-1';
+  final List image = [];
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class _SignupPageState extends State<SignupPage> {
 
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 30,
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
         ),
@@ -44,7 +47,7 @@ class _SignupPageState extends State<SignupPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 20,
+                height: 4,
               ),
               Container(
                   alignment: Alignment.center,
@@ -70,6 +73,62 @@ class _SignupPageState extends State<SignupPage> {
                 ),
               ),
 
+              SizedBox(
+                height: 15,
+              ),
+
+              // add (upload) image
+              Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 7,
+                  )
+                ]),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 14,
+                    ),
+                    ElevatedButton(
+                        onPressed: () async {
+                          // on this button clicks run this code below
+                          FilePickerResult? results =
+                              await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
+                            type: FileType.custom,
+                            allowedExtensions: ['png', 'jpg'],
+                          );
+                          if (results == null) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('No Image Was Selected....'),
+                              ),
+                            );
+                            return null;
+                          }
+
+                          final path = results.files.single.path;
+                          final filename = results.files.single.name;
+                          // print('path' + path.toString());
+                          // print('filename' + filename.toString());
+                          image.add(path);
+                          image.add(filename);
+                        },
+                        child: Text('Browse...')),
+                    SizedBox(width: 14),
+                    Text(
+                      'Choose Profile Picture',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 1.8),
+                    )
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 15,
               ),
@@ -189,13 +248,20 @@ class _SignupPageState extends State<SignupPage> {
               // Singup btn
               InkWell(
                 onTap: () async {
+                  var imgpath = image[0];
+                  var imgname = image[1];
+                  final imageurl =
+                      await auth.uploadProfileimg(imgpath, imgname);
+
                   String output = await auth.createaccount(
-                      firstname: firstnamecontroller.text,
-                      lastname: lastnamenamecontroller.text,
-                      phone: phonecontroller.text,
-                      email: emailnamecontroller.text,
-                      password: pwdcontroller.text,
-                      role: _result);
+                    firstname: firstnamecontroller.text,
+                    lastname: lastnamenamecontroller.text,
+                    phone: phonecontroller.text,
+                    email: emailnamecontroller.text,
+                    password: pwdcontroller.text,
+                    role: _result,
+                    imageurl: imageurl.toString(),
+                  );
 
                   if (output == 'success') {
                     // print(output);
@@ -213,7 +279,6 @@ class _SignupPageState extends State<SignupPage> {
                       duration: const Duration(seconds: 1),
                     ));
                   }
-                  print(firstnamecontroller.text);
                 },
                 child: Container(
                   alignment: Alignment.center,

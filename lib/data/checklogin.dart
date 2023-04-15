@@ -29,7 +29,7 @@ class _CheckloginState extends State<Checklogin> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                 child: CircularProgressIndicator(
-                  backgroundColor: Colors.red,
+                  backgroundColor: Colors.yellow,
                 ),
               );
             } else if (snapshot.hasData) {
@@ -116,11 +116,16 @@ class _LogoutState extends State<Logout> {
               } else {
                 return Center(
                   child: CircularProgressIndicator(
-                    backgroundColor: Colors.red,
+                    backgroundColor: Colors.yellow,
                   ),
                 );
               }
-              return SizedBox();
+              return Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.orange,
+                ),
+              );
+              ;
             },
           ),
         ],

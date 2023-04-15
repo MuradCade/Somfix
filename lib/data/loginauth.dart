@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Authtication {
   FirebaseAuth firebaseauth = FirebaseAuth.instance;
@@ -9,6 +12,7 @@ class Authtication {
     required String phone,
     required String email,
     required String password,
+    required String imageurl,
     String role = '',
   }) async {
     firstname.trim();
@@ -40,11 +44,11 @@ class Authtication {
         // print(role)
         // date
         DateTime dateToday = new DateTime.now();
-        String date = dateToday
-            .toString()
-            .substring(0, 10); // / add user detial with role
+        String date = dateToday.toString().substring(0, 10);
+        // final imageurl = uploadProfileimg(imgname, imgpath);
+        // / add user detial with role
         storeuserinfofromsingupscreen(email, firstname, lastname, phone,
-            storeroleresult[int.parse(role)], date, uid);
+            storeroleresult[int.parse(role)], date, imageurl, uid);
 
         output = 'success';
       } on FirebaseAuthException catch (e) {
@@ -56,6 +60,31 @@ class Authtication {
     return output;
   }
 
+// store profile img in firebase storage
+
+  Future uploadProfileimg(String imgpath, String imgname) async {
+    // get the refrence to storege root
+    Reference referenceroot = FirebaseStorage.instance.ref();
+    Reference referencedirectory = referenceroot.child('images');
+
+    // create refrence for image to be stored
+    Reference refrenceimagetoupload = referencedirectory.child('${imgname}');
+    String imageurl = '';
+    try {
+      // store image in firebase storage
+      await refrenceimagetoupload.putFile(File(imgpath));
+      imageurl = await refrenceimagetoupload.getDownloadURL();
+      print('store successfully');
+    } catch (error) {
+      print('failed to store because of this problem : ' + error.toString());
+    }
+
+    return imageurl;
+    // print('from function image path:  ${imgpath}');
+    // print('from function image name:  ${imgname}');
+  }
+
+  // print();
 // insert userdata to firestore when account is created
   Future storeuserinfofromsingupscreen(
       String email,
@@ -64,7 +93,10 @@ class Authtication {
       String phone,
       String? role,
       String date,
+      String imageurl,
       final uid) async {
+    // print('function returned' + imageurl);
+
     await FirebaseFirestore.instance.collection('userdata').add({
       'id': uid,
       'Firstname': firstname,
@@ -75,8 +107,10 @@ class Authtication {
       "joined_date": date,
       "deleted_date": 'false',
       "updated_date": 'false',
+      "profile_image": imageurl,
     }).catchError((error) {
-      print('Error found when adding data to userdata collection  : ' + error);
+      print('Error found when adding data to userdata collection  : ' +
+          error.toString());
     });
   }
 

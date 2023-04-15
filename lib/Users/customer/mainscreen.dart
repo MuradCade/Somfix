@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:somfixapp/Users/customer/screens/home.dart';
+import 'package:somfixapp/Users/customer/screens/inbox.dart';
+import 'package:somfixapp/Users/customer/screens/mybooking.dart';
+import 'package:somfixapp/Users/customer/screens/profile.dart';
 import 'package:somfixapp/mainscreens/login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -11,40 +15,76 @@ class Customermainscreen extends StatefulWidget {
 }
 
 class _CustomermainscreenState extends State<Customermainscreen> {
+  //?pages of the userdashboard
+  var _pages = [Home(), MyBooking(), Inbox(), Profile()];
+
+  int counter = 0;
+  //  navigation state increases the counter value depend on the page
+  void _navigation(int index) {
+    setState(() {
+      counter = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(children: [
-          Center(
-            child: Text('Welcome Customer'),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          InkWell(
-            onTap: () {
-              FirebaseAuth.instance.signOut();
-              GoogleSignIn().signOut();
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()));
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                width: 200,
-                height: 40,
-                decoration: BoxDecoration(color: Colors.blue[500]),
-                child: Center(
-                    child: Text(
-                  'LOGOUT',
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                )),
-              ),
-            ),
-          )
-        ]),
-      ),
+      body: _pages[counter],
+      // bottom navigation
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: counter,
+          onTap: _navigation,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+                icon: Container(
+                  // padding: EdgeInsets.only(bottom: 6),
+                  margin: EdgeInsets.only(bottom: 2),
+                  child: Image.asset(
+                    'assets/home.png',
+                    height: 32,
+                  ),
+                ),
+                activeIcon: Container(
+                  margin: EdgeInsets.only(bottom: 2),
+                  child: Image.asset('assets/home.png',
+                      height: 28, color: Colors.blue),
+                ),
+                label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Container(
+                    margin: EdgeInsets.only(bottom: 2),
+                    child: Icon(Icons.calendar_month_outlined, size: 28)),
+                label: 'My Booking'),
+            BottomNavigationBarItem(
+                icon: Container(
+                  margin: EdgeInsets.only(bottom: 3),
+                  child: Image.asset(
+                    'assets/messenger.png',
+                    height: 28,
+                  ),
+                ),
+                activeIcon: Container(
+                  margin: EdgeInsets.only(bottom: 2),
+                  child: Image.asset('assets/messenger.png',
+                      height: 28, color: Colors.blue),
+                ),
+                label: 'Inbox'),
+            BottomNavigationBarItem(
+                icon: Container(
+                  margin: EdgeInsets.only(bottom: 3),
+                  child: Image.asset(
+                    'assets/user.png',
+                    height: 28,
+                  ),
+                ),
+                activeIcon: Container(
+                  margin: EdgeInsets.only(bottom: 2),
+                  child: Image.asset('assets/user.png',
+                      height: 28, color: Colors.blue),
+                ),
+                label: 'Profile'),
+          ]),
     );
   }
 }

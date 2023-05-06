@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:somfixapp/mainscreens/login.dart';
-import 'package:somfixapp/resources/intro-screen.dart';
+// import 'package:somfixapp/resources/intro-screen.dart';
 
 import '../Users/admin/mainscreen.dart';
 import '../Users/company/mainscreen.dart';
 import '../Users/customer/mainscreen.dart';
 import '../Users/employee/mainscreen.dart';
+import '../Users/freelancer/mainscreen.dart';
 
 class Checklogin extends StatefulWidget {
   const Checklogin({super.key});
@@ -68,13 +69,10 @@ class _LogoutState extends State<Logout> {
             builder: (context, snapshot) {
               // List<String> clientwidgets = [];
               if (snapshot.hasData) {
+                // FirebaseAuth.instance.signOut();
                 final clients = snapshot.data?.docs.reversed.toList();
                 final useremail = FirebaseAuth.instance.currentUser?.email;
                 for (var clients in clients!) {
-                  //   // final clientwidget = Row(
-                  //   //   children: [
-                  //   //     clienr),
-                  //   //   ],
                   if (clients['role'] == 'admin') {
                     // print('welcome admin');
                     WidgetsBinding.instance.addPostFrameCallback((_) =>
@@ -96,7 +94,7 @@ class _LogoutState extends State<Logout> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Employeemainscreen())));
+                                builder: (context) => Freelancer())));
                   } else if (clients['role'] == 'personal') {
                     // print('welcome customer');
                     WidgetsBinding.instance.addPostFrameCallback((_) =>
@@ -104,6 +102,13 @@ class _LogoutState extends State<Logout> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Customermainscreen())));
+                  } else if (clients['role'] == 'employee') {
+                    // print('welcome customer');
+                    WidgetsBinding.instance.addPostFrameCallback((_) =>
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Employeemainscreen())));
                   } else {
                     // print('no role was fetched');
                     WidgetsBinding.instance.addPostFrameCallback((_) =>

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:somfixapp/mainscreens/signup.dart';
-
+import 'account_type.dart';
 import '../data/checklogin.dart';
-import '../data/loginauth.dart';
+import '../data/personalaccountAuth.dart';
 import '../data/signinwithgoogle.dart';
 import '../resources/socials-login.dart';
 import '../resources/textform.dart';
+// import 'package:page_transition/page_transition.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,10 +15,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool isloading = false;
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController pwdcontroler = TextEditingController();
   // instace of class called auth inside login-auth.dart file
-  final Authtication auth = Authtication();
+  Authtication auth = Authtication();
   // login with google class
   final AuthService google = AuthService();
   @override
@@ -82,17 +83,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 hintext: 'Password',
               ),
               SizedBox(
-                height: 10,
+                height: 15,
               ),
 
               // Login btn
               InkWell(
                 onTap: () async {
+                  Future.delayed(Duration(seconds: 1));
                   String output = await auth.login(
                       email: emailcontroller.text, password: pwdcontroler.text);
 
                   if (output == 'success') {
-                    print(output);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -112,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.center,
                   height: 55,
                   decoration: BoxDecoration(
-                    color: Color(0xFFF1E319D),
+                    color: Color(0xFFF5f60ba),
                     borderRadius: BorderRadius.circular(6),
                     boxShadow: [
                       BoxShadow(
@@ -121,13 +122,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       )
                     ],
                   ),
-                  child: Text(
-                    'Login',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18),
-                  ),
+                  child: !isloading
+                      ? Text(
+                          'Login',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18),
+                        )
+                      : Center(
+                          heightFactor: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ),
               // Signin with google
@@ -155,17 +163,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 InkWell(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => SignupPage()));
+                        MaterialPageRoute(builder: (context) => AccountType()));
                   },
                   child: Text(
                     'Create Account',
                     style: TextStyle(
-                      fontSize: 16,
-                      color: Color(0xFFF1E319D),
-                    ),
+                        fontSize: 16,
+                        color: Color(0xFFF1E319D),
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-              ])
+              ]),
             ],
           ),
         ),

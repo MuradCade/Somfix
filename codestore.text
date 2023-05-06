@@ -1,3 +1,6 @@
+login auth previous code before implamenting the storing to collection on role based
+------------------------------------------------------------------------------------
+
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';

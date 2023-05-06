@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class MyNotification extends StatefulWidget {
-  const MyNotification({super.key});
+class Messageinbox extends StatefulWidget {
+  const Messageinbox({super.key});
 
   @override
-  State<MyNotification> createState() => _MyNotificationState();
+  State<Messageinbox> createState() => _MessageinboxState();
 }
 
-class _MyNotificationState extends State<MyNotification> {
+class _MessageinboxState extends State<Messageinbox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 12),
+      margin: EdgeInsets.only(right: 2),
       child: IconButton(
         onPressed: () {
           showModalBottomSheet(
@@ -21,7 +21,7 @@ class _MyNotificationState extends State<MyNotification> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'There Is No Notification Yet',
+                    'There Is No Messages Yet',
                     style: TextStyle(fontSize: 20),
                   ),
                   ElevatedButton(
@@ -39,8 +39,8 @@ class _MyNotificationState extends State<MyNotification> {
           decoration: BoxDecoration(
               color: Colors.grey[100], borderRadius: BorderRadius.circular(6)),
           child: Icon(
-            Icons.notifications_none,
-            size: 26,
+            Icons.message_outlined,
+            size: 18,
             color: Colors.black54,
           ),
         ),

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Employeemainscreen extends StatefulWidget {
@@ -13,11 +14,16 @@ class _EmployeemainscreenState extends State<Employeemainscreen> {
     return Scaffold(
       body: Column(children: [
         Center(
-          child: Text('Welcome Employee'),
+          child: Text('Welcome Company_Employee'),
         ),
-        InkWell(
-          child: Text('LOGOUT'),
-        )
+        SizedBox(
+          height: 12,
+        ),
+        ElevatedButton(
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+            },
+            child: Text('Logout'))
       ]),
     );
   }

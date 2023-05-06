@@ -6,10 +6,10 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 // import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:firebase_core/firebase_core.dart';
-import 'package:somfixapp/resources/intro-screen.dart';
+// import 'package:somfixapp/resources/intro-screen.dart';
 
 import 'data/checklogin.dart';
-import 'mainscreens/signup.dart';
+// import 'mainscreens/signup.dart';
 import 'splashscreen.dart';
 // import 'mainscreens/login.dart';
 
@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Somfix APP',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -41,8 +41,8 @@ class _MyAppState extends State<MyApp> {
         splashIconSize: 600,
         splashTransition: SplashTransition.fadeTransition,
         // duration: 3000,
-        splash: SplashScreen(),
-        nextScreen: Checklogin(),
+        splash: const SplashScreen(),
+        nextScreen: const Checklogin(),
         // isviewed != 0 ? OnboardingScreen() : LoginScreen()
       ),
     );

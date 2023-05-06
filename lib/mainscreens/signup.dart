@@ -1,11 +1,8 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:somfixapp/data/checklogin.dart';
 import 'package:file_picker/file_picker.dart';
-
-import '../data/loginauth.dart';
-// import '../resources/button.dart';
-// import '../resources/socials-login.dart';
+import '../data/checklogin.dart';
+import '../data/personalaccountAuth.dart';
 import '../resources/textform.dart';
 
 class SignupPage extends StatefulWidget {
@@ -16,18 +13,22 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-  String _result = '-1';
+  String gender = '-1';
   final List image = [];
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController firstnamecontroller = TextEditingController();
-    TextEditingController lastnamenamecontroller = TextEditingController();
-    TextEditingController emailnamecontroller = TextEditingController();
-    TextEditingController pwdcontroller = TextEditingController();
+    TextEditingController fullnamecontroller = TextEditingController();
     TextEditingController phonecontroller = TextEditingController();
-    // instace of class called auth inside login-auth.dart file
+    TextEditingController agecontroller = TextEditingController();
+    TextEditingController countrycountroller = TextEditingController();
+    TextEditingController citycountroller = TextEditingController();
+    TextEditingController addresscontroller = TextEditingController();
+    TextEditingController emailcontroller = TextEditingController();
+    TextEditingController pwdcontroller = TextEditingController();
     final Authtication auth = Authtication();
+    var imgpath;
+    var imgname;
 
     return Scaffold(
       appBar: AppBar(
@@ -50,33 +51,17 @@ class _SignupPageState extends State<SignupPage> {
                 height: 4,
               ),
               Container(
-                  alignment: Alignment.center,
+                  alignment: Alignment.topLeft,
                   child: Text(
-                    'Create Your Account',
+                    'Create Personal Account',
                     style: TextStyle(
                         fontSize: 20,
                         color: Color(0xFFF4F4F4F),
                         fontWeight: FontWeight.w600),
                   )),
               SizedBox(
-                height: 15,
+                height: 20,
               ),
-              Container(
-                alignment: Alignment.center,
-                child: Text(
-                  'By creating an account  you agree  with \n our terms and conditions',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[400]),
-                ),
-              ),
-
-              SizedBox(
-                height: 15,
-              ),
-
               // add (upload) image
               Container(
                 width: double.infinity,
@@ -134,27 +119,15 @@ class _SignupPageState extends State<SignupPage> {
               ),
               // Firstname textfield
               TextFormGlobal(
-                controller: firstnamecontroller,
+                controller: fullnamecontroller,
                 Textinputtype: TextInputType.text,
                 Obsecure: false,
-                hintext: 'Firstname',
+                hintext: 'Fullname',
               ),
               SizedBox(
                 height: 15,
               ),
-
-              // Lastname Textfield
-              TextFormGlobal(
-                controller: lastnamenamecontroller,
-                Textinputtype: TextInputType.text,
-                Obsecure: false,
-                hintext: 'Lastname',
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              // phone number
+              // phine number
               TextFormGlobal(
                 controller: phonecontroller,
                 Textinputtype: TextInputType.number,
@@ -164,9 +137,86 @@ class _SignupPageState extends State<SignupPage> {
               SizedBox(
                 height: 10,
               ),
+
+              // age number
+              TextFormGlobal(
+                controller: agecontroller,
+                Textinputtype: TextInputType.number,
+                Obsecure: false,
+                hintext: 'Age',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              //gender
+              Padding(
+                padding: EdgeInsets.all(4),
+                child: Container(
+                  width: double.infinity,
+                  height: 55,
+                  padding: EdgeInsets.only(top: 3, left: 15),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(6)),
+                  child: DropdownButtonFormField(
+                    value: gender,
+                    items: [
+                      const DropdownMenuItem(
+                        child: Text('Select gender'),
+                        value: "-1",
+                      ),
+                      const DropdownMenuItem(
+                        child: Text('Male'),
+                        value: "1",
+                      ),
+                      const DropdownMenuItem(
+                        child: Text('Female'),
+                        value: "2",
+                      ),
+                    ],
+                    onChanged: (value) {
+                      gender = value!;
+                    },
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+              // country
+              TextFormGlobal(
+                controller: countrycountroller,
+                Textinputtype: TextInputType.text,
+                Obsecure: false,
+                hintext: 'Country',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              // city
+              TextFormGlobal(
+                controller: citycountroller,
+                Textinputtype: TextInputType.text,
+                Obsecure: false,
+                hintext: 'City',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              // address
+              TextFormGlobal(
+                controller: addresscontroller,
+                Textinputtype: TextInputType.text,
+                Obsecure: false,
+                hintext: 'Address',
+              ),
+              SizedBox(
+                height: 10,
+              ),
               // email textfield
               TextFormGlobal(
-                controller: emailnamecontroller,
+                controller: emailcontroller,
                 Textinputtype: TextInputType.emailAddress,
                 Obsecure: false,
                 hintext: 'Email',
@@ -182,65 +232,6 @@ class _SignupPageState extends State<SignupPage> {
                 Obsecure: true,
                 hintext: 'Password',
               ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 1,
-                  ),
-                  Text(
-                    'Select type of your account',
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey.shade700),
-                  ),
-                  SizedBox(
-                    width: 4,
-                  ),
-                  Icon(
-                    Icons.info,
-                    color: Colors.grey[700],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              Padding(
-                padding: EdgeInsets.all(4),
-                child: Container(
-                  width: double.infinity,
-                  height: 55,
-                  padding: EdgeInsets.only(top: 3, left: 15),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6)),
-                  child: DropdownButtonFormField(
-                    value: _result,
-                    items: [
-                      const DropdownMenuItem(
-                        child: Text('Personal use'),
-                        value: '-1',
-                      ),
-                      const DropdownMenuItem(
-                        child: Text('Company use'),
-                        value: "1",
-                      ),
-                      const DropdownMenuItem(
-                        child: Text('Freelancer'),
-                        value: "2",
-                      )
-                    ],
-                    onChanged: (value) {
-                      _result = value!;
-                    },
-                  ),
-                ),
-              ),
 
               SizedBox(
                 height: 15,
@@ -248,36 +239,48 @@ class _SignupPageState extends State<SignupPage> {
               // Singup btn
               InkWell(
                 onTap: () async {
-                  var imgpath = image[0];
-                  var imgname = image[1];
-                  final imageurl =
-                      await auth.uploadProfileimg(imgpath, imgname);
-
-                  String output = await auth.createaccount(
-                    firstname: firstnamecontroller.text,
-                    lastname: lastnamenamecontroller.text,
-                    phone: phonecontroller.text,
-                    email: emailnamecontroller.text,
-                    password: pwdcontroller.text,
-                    role: _result,
-                    imageurl: imageurl.toString(),
-                  );
-
-                  if (output == 'success') {
-                    // print(output);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Checklogin()));
-                  } else {
+                  if (image.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
-                        output,
+                        "Please select profile image",
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w700),
                       ),
                       duration: const Duration(seconds: 1),
                     ));
+                  } else {
+                    imgpath = image[0];
+                    imgname = image[1];
+                    final imgurl = await auth.uploadProfileimg(
+                        imgpath.toString(), imgname.toString());
+                    String output = await auth.createpersonalaccount(
+                        img: imgurl.toString(),
+                        fullname: fullnamecontroller.text,
+                        phone: phonecontroller.text,
+                        age: agecontroller.text,
+                        gender: gender,
+                        country: countrycountroller.text,
+                        city: citycountroller.text,
+                        address: addresscontroller.text,
+                        email: emailcontroller.text,
+                        pwd: pwdcontroller.text);
+
+                    // check the return of the function
+                    if (output == 'success') {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Checklogin()));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                          output,
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.w700),
+                        ),
+                        duration: const Duration(seconds: 1),
+                      ));
+                    }
                   }
                 },
                 child: Container(
@@ -294,7 +297,7 @@ class _SignupPageState extends State<SignupPage> {
                     ],
                   ),
                   child: Text(
-                    'Create Account',
+                    'Singup',
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,

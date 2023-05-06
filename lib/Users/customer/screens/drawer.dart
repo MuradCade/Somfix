@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../../mainscreens/login.dart';
 
 class Mydrawer extends StatefulWidget {
   const Mydrawer({super.key});
@@ -195,7 +196,8 @@ class _MyDrawerListState extends State<MyDrawerList> {
               onTap: () {
                 FirebaseAuth.instance.signOut();
                 // specifiy where to go
-                Navigator.pop(context);
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
               },
               child: Container(
                 width: double.infinity,
@@ -259,8 +261,8 @@ class _MyheaderDrawerState extends State<MyheaderDrawer> {
       child: ClipRect(
         child: StreamBuilder(
           stream: FirebaseFirestore.instance
-              .collection('userdata')
-              .where('id', isEqualTo: curentuser.currentUser!.uid)
+              .collection('customer')
+              .where('id', isEqualTo: curentuser.currentUser?.uid)
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -281,25 +283,30 @@ class _MyheaderDrawerState extends State<MyheaderDrawer> {
                     children: [
                       Container(
                         margin: EdgeInsets.only(bottom: 10),
-                        height: 70,
+                        height: 90,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: NetworkImage(data['profile_image'] == ''
+                              image: NetworkImage(data['img'] == ''
                                   ? 'https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80'
-                                  : data['profile_image']),
+                                  : data['img']),
                             )),
                       ),
                       Text(
-                        data['Firstname'] + ' ' + data['Lastname'],
-                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        data['fullname'],
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            letterSpacing: 1.5),
                       ),
                       SizedBox(
-                        height: 8,
+                        height: 4,
                       ),
-                      Text(data['Email'],
-                          style:
-                              TextStyle(color: Colors.grey[200], fontSize: 16))
+                      Text(data['email'],
+                          style: TextStyle(
+                              color: Colors.grey[200],
+                              fontSize: 16,
+                              letterSpacing: 1.1))
                     ],
                   );
                 },

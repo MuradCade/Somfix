@@ -99,56 +99,32 @@ class _CreateserviceState extends State<Createservice> {
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             final result = snapshot.data!.docs[index];
-                            return Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(6),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    blurRadius: 7,
-                                  )
+                            return Card(
+                              margin: const EdgeInsets.only(top: 20),
+                              child: Column(
+                                children: <Widget>[
+                                  Image.network(
+                                    result['Service_image'],
+                                    width: double.infinity,
+                                  ),
+                                  ListTile(
+                                    // mainAxisSize: MainAxisSize.min,
+                                    title: Text(
+                                      result['Service_Name'],
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+
+                                    subtitle: Text(
+                                      result['Service_description'],
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                      maxLines: 1,
+                                    ),
+                                  ),
                                 ],
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Image.network(
-                                          result['Service_image'],
-                                          height: 100,
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 25,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          result['Service_Name'],
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        const SizedBox(
-                                          height: 2,
-                                        ),
-                                        const Text(
-                                          "Price",
-                                          style: TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                          maxLines: 1,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
                               ),
                             );
                           },

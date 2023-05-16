@@ -85,15 +85,11 @@ class _CreateserviceState extends State<Createservice> {
                       .where('person_created_service', isEqualTo: user?.email)
                       .snapshots(),
                   builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.blue[300],
-                        ),
-                      );
+                    if (snapshot.hasError) {
+                      return Center(child: Text('There No Data To Displayed'));
                     } else {
                       return SizedBox(
-                        height: 300,
+                        height: 600,
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           itemCount: snapshot.data!.docs.length,
@@ -110,9 +106,9 @@ class _CreateserviceState extends State<Createservice> {
                                   ListTile(
                                     // mainAxisSize: MainAxisSize.min,
                                     title: Text(
-                                      result['Service_Name'],
+                                      result['Service_name'],
                                       style: TextStyle(
-                                          fontSize: 18,
+                                          fontSize: 19,
                                           fontWeight: FontWeight.w500),
                                     ),
 
@@ -277,30 +273,30 @@ class _AddServiceState extends State<AddService> {
                         borderRadius: BorderRadius.circular(6)),
                     child: DropdownButtonFormField(
                       value: servicetype,
-                      items: [
-                        const DropdownMenuItem(
-                          child: Text('Service Category'),
+                      items: const [
+                        DropdownMenuItem(
                           value: '-1',
+                          child: Text('Service Category'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Plumber'),
+                        DropdownMenuItem(
                           value: "1",
+                          child: Text('Plumber'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Electrician'),
+                        DropdownMenuItem(
                           value: "2",
+                          child: Text('Electrician'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Handyman'),
+                        DropdownMenuItem(
                           value: "3",
+                          child: Text('Handyman'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Cleaner'),
+                        DropdownMenuItem(
                           value: "4",
+                          child: Text('Cleaner'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Painter'),
+                        DropdownMenuItem(
                           value: "5",
+                          child: Text('Painter'),
                         ),
                       ],
                       onChanged: (value) {
@@ -349,22 +345,22 @@ class _AddServiceState extends State<AddService> {
                         borderRadius: BorderRadius.circular(6)),
                     child: DropdownButtonFormField(
                       value: type,
-                      items: [
-                        const DropdownMenuItem(
-                          child: Text('Type'),
+                      items: const [
+                        DropdownMenuItem(
                           value: '-1',
+                          child: Text('Type'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Free'),
+                        DropdownMenuItem(
                           value: "1",
+                          child: Text('Free'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Fixed'),
+                        DropdownMenuItem(
                           value: "2",
+                          child: Text('Fixed'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Hourly'),
+                        DropdownMenuItem(
                           value: "3",
+                          child: Text('Hourly'),
                         ),
                       ],
                       onChanged: (value) {
@@ -387,18 +383,18 @@ class _AddServiceState extends State<AddService> {
                         borderRadius: BorderRadius.circular(6)),
                     child: DropdownButtonFormField(
                       value: servicestatus,
-                      items: [
-                        const DropdownMenuItem(
-                          child: Text('Status'),
+                      items: const [
+                        DropdownMenuItem(
                           value: '-1',
+                          child: Text('Status'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Active'),
+                        DropdownMenuItem(
                           value: "1",
+                          child: Text('Active'),
                         ),
-                        const DropdownMenuItem(
-                          child: Text('Inactive'),
+                        DropdownMenuItem(
                           value: "2",
+                          child: Text('Inactive'),
                         ),
                       ],
                       onChanged: (value) {

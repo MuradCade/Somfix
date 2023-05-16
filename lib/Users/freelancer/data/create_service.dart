@@ -64,13 +64,13 @@ class Addservice {
         final email = FirebaseAuth.instance.currentUser?.email;
         FirebaseFirestore.instance.collection('service').add({
           "Service_image": serviceimage,
-          "Service_Name": servicename,
-          "Service_Category": servicecategorylist[int.parse(servicecategory)],
-          "Service_Address": serviceaddress,
-          "Service_Type": servicetypelist[int.parse(type)],
-          "Service_Status": statuslist[int.parse(status)],
-          "Service_Price": price,
-          "Servicec_Discount": discount,
+          "Service_name": servicename,
+          "Service_category": servicecategorylist[int.parse(servicecategory)],
+          "Service_address": serviceaddress,
+          "Service_type": servicetypelist[int.parse(type)],
+          "Service_status": statuslist[int.parse(status)],
+          "Service_price": price,
+          "Servicec_discount": discount,
           "Service_duration": durationandhour,
           "Service_description": description,
           "person_created_service": email

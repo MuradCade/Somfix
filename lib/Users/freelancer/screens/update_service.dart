@@ -1,189 +1,43 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import '../data/create_service.dart';
-import 'created_service_detail_screen.dart';
 
-class Createservice extends StatefulWidget {
-  const Createservice({super.key});
+import '../data/updateservice.dart';
 
-  @override
-  State<Createservice> createState() => _CreateserviceState();
-}
-
-class _CreateserviceState extends State<Createservice> {
-  final user = FirebaseAuth.instance.currentUser;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Service'),
-        automaticallyImplyLeading: true,
-        toolbarHeight: 70,
-        backgroundColor: const Color(0xFFF5f60ba),
-        elevation: 0,
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 18),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AddService()));
-              },
-              child: const Icon(
-                Icons.add,
-                size: 26,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(15),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 55,
-                  padding: const EdgeInsets.only(top: 3, left: 15),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 7,
-                        )
-                      ]),
-                  child: TextFormField(
-                    // controller: widget.controller,
-                    // keyboardType: widget.Textinputtype,
-                    // obscureText: widget.Obsecure,
-                    decoration: const InputDecoration(
-                      hintText: 'Search',
-                      border: InputBorder.none,
-                      // prefixIcon: Icon(Icons.search),
-                      contentPadding: EdgeInsets.all(0),
-                      hintStyle: TextStyle(height: 1),
-                    ),
-                  ),
-                ),
-
-                // display services created by the user
-                const SizedBox(
-                  height: 18,
-                ),
-                StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('service')
-                      .where('person_created_service', isEqualTo: user?.email)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else {
-                      return SizedBox(
-                        height: 600,
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            final result = snapshot.data!.docs[index];
-                            final id = snapshot.data!.docs[index].id;
-                            return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Createdservicedetailscreen(
-                                              id: id,
-                                              image: result['Service_image'],
-                                              category:
-                                                  result['Service_category'],
-                                              servicename:
-                                                  result['Service_name'],
-                                              price: result['Service_price'],
-                                              description:
-                                                  result['Service_description'],
-                                              duration:
-                                                  result['Service_duration'],
-                                              serviceaddress:
-                                                  result['Service_address'],
-                                              servicestatus:
-                                                  result['Service_status'],
-                                              servicetype:
-                                                  result['Service_type'],
-                                              discount:
-                                                  result['Servicec_discount'],
-                                            )));
-                              },
-                              child: Card(
-                                margin: const EdgeInsets.only(top: 20),
-                                child: Column(
-                                  children: <Widget>[
-                                    Image.network(
-                                      result['Service_image'],
-                                      width: double.infinity,
-                                    ),
-                                    ListTile(
-                                      // mainAxisSize: MainAxisSize.min,
-                                      title: Text(
-                                        result['Service_name'],
-                                        style: TextStyle(
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-
-                                      subtitle: Text(
-                                        result['Service_description'],
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                        maxLines: 1,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// create service
-
-class AddService extends StatefulWidget {
-  const AddService({super.key});
+class Updateservice extends StatefulWidget {
+  Updateservice(
+      {super.key,
+      required this.id,
+      required this.img,
+      required this.servicecategory,
+      required this.servicename,
+      required this.price,
+      required this.duration,
+      required this.description,
+      required this.discount,
+      required this.serviceaddress,
+      required this.servicestatus,
+      required this.servicetype});
+  final String id;
+  final String img;
+  final String servicecategory;
+  final String servicename;
+  final String price;
+  final String duration;
+  final String description;
+  final String discount;
+  final String serviceaddress;
+  final String servicestatus;
+  final String servicetype;
 
   @override
-  State<AddService> createState() => _AddServiceState();
+  State<Updateservice> createState() => _AddServiceState();
 }
 
-class _AddServiceState extends State<AddService> {
+class _AddServiceState extends State<Updateservice> {
   List image = [];
   String servicetype = '-1';
   String type = '-1';
   String servicestatus = '-1';
-
   DateTime datetime = DateTime(2022, 02, 25, 12, 30);
   List datetimepicker = [];
 
@@ -192,12 +46,53 @@ class _AddServiceState extends State<AddService> {
   TextEditingController price = TextEditingController();
   TextEditingController discount = TextEditingController();
   TextEditingController description = TextEditingController();
-  Addservice addnewservice = Addservice();
+  Updateservicedata updateservice = Updateservicedata();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    servicename.text = '${widget.servicename}';
+    serviceaddress.text = '${widget.serviceaddress}';
+    price.text = '${widget.price}';
+    discount.text = '${widget.discount}';
+    description.text = '${widget.description}';
+    if ('${widget.servicecategory}' == 'Plumber') {
+      servicetype = '1';
+    } else if ('${widget.servicecategory}' == 'Electrician') {
+      servicetype = '2';
+    } else if ('${widget.servicecategory}' == 'Handyman') {
+      servicetype = '3';
+    } else if ('${widget.servicecategory}' == 'Cleaner') {
+      servicetype = '4';
+    } else if ('${widget.servicecategory}' == 'Painter') {
+      servicetype = '5';
+    }
+
+    if ('${widget.servicetype}' == 'Free') {
+      type = '1';
+    } else if ('${widget.servicetype}' == 'Fixed') {
+      type = '2';
+    } else if ('${widget.servicetype}' == 'Hourly') {
+      type = '3';
+    }
+
+    if ('${widget.servicestatus}' == 'Active') {
+      servicestatus = '1';
+    }
+    if ('${widget.servicestatus}' == 'Inactive') {
+      servicestatus = '2';
+    }
+
+    image.add('${widget.img}');
+    datetimepicker.add('${widget.duration}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Service'),
+        title: const Text('Update Service'),
         automaticallyImplyLeading: true,
         toolbarHeight: 70,
         backgroundColor: const Color(0xFFF5f60ba),
@@ -549,31 +444,14 @@ class _AddServiceState extends State<AddService> {
                 InkWell(
                   onTap: () async {
                     if (image.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text(
-                          'Please Choose Service Image',
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w700),
-                        ),
-                        duration: Duration(seconds: 1),
-                      ));
+                      // print('Please Choose Image');
                     } else if (datetimepicker.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text(
-                          'Please Choose Duration',
-                          style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w700),
-                        ),
-                        duration: Duration(seconds: 1),
-                      ));
+                      print('Please Choose Duration');
                     } else {
-                      var imgpath = image[0];
-                      var imgname = image[1];
-
-                      final imageurl = await addnewservice.uploadserviceimg(
-                          imgpath, imgname);
-                      String output = await addnewservice.addservicecollection(
-                          serviceimage: imageurl.toString(),
+                      // print('good move on');
+                      final output = await updateservice.updatesignleservice(
+                          id: '${widget.id}',
+                          serviceimage: image[0].toString(),
                           servicename: servicename.text,
                           servicecategory: servicetype,
                           serviceaddress: serviceaddress.text,
@@ -583,12 +461,21 @@ class _AddServiceState extends State<AddService> {
                           discount: discount.text,
                           durationandhour: datetimepicker[0].toString(),
                           description: description.text);
+
                       if (output == 'success') {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                            'Service Updated Successfully',
+                            style: const TextStyle(
+                                fontSize: 17, fontWeight: FontWeight.w700),
+                          ),
+                          duration: const Duration(seconds: 1),
+                        ));
                         Navigator.pop(context);
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: Text(
-                            output,
+                            'Service Updated Successfully',
                             style: const TextStyle(
                                 fontSize: 17, fontWeight: FontWeight.w700),
                           ),
@@ -611,7 +498,7 @@ class _AddServiceState extends State<AddService> {
                         ],
                       ),
                       child: const Text(
-                        'Save',
+                        'Update',
                         style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w600,

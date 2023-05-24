@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:somfixapp/Users/customer/screens/service_detail.dart';
 
-import 'package:somfixapp/mainscreens/login.dart';
-import '../data/displaysinglecompanydetail.dart';
-import 'drawer.dart';
+// import 'package:somfixapp/mainscreens/login.dart';
+// import '../data/displaysinglecompanydetail.dart';
 import 'notification.dart';
 
 class Home extends StatefulWidget {
@@ -20,72 +20,40 @@ class _HomeState extends State<Home> {
     return Scaffold(
       // backgroundColor: Colors.white,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        // automaticallyImplyLeading: true,
+        title: const Text('Dashboard'),
+        iconTheme: const IconThemeData(color: Colors.black),
+        automaticallyImplyLeading: false,
         toolbarHeight: 70,
-
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color(0xFFF5f60ba),
         elevation: 0,
         actions: [
-          MyNotification(),
+          const MyNotification(),
         ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
             width: double.infinity,
-            padding: EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(15.0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              SizedBox(
+              const SizedBox(
                 height: 14,
               ),
-              Text(
-                'What service do you need?',
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey.shade800,
-                    letterSpacing: 1.5),
-              ),
-              SizedBox(
-                height: 14,
-              ),
-              Container(
-                height: 50,
-                margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.only(top: 4, left: 15),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(90),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 7,
-                      )
-                    ]),
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    suffixIcon: Icon(
-                      Icons.search,
-                      color: Colors.grey.shade500,
-                    ),
-                    hintText: "Search Here...",
-                    hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
-                  ),
-                ),
-              ),
-              SizedBox(height: 38),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Service Category',
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade700),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 24,
               ),
               StreamBuilder(
@@ -94,7 +62,7 @@ class _HomeState extends State<Home> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(
                         color: Colors.blue,
                       ),
@@ -112,7 +80,7 @@ class _HomeState extends State<Home> {
                             child: Container(
                               width: 110,
                               height: 84,
-                              padding: EdgeInsets.all(2),
+                              padding: const EdgeInsets.all(2),
                               child: InkWell(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -123,13 +91,13 @@ class _HomeState extends State<Home> {
                                           NetworkImage(data['service_image']),
                                       height: 45,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 18,
                                     ),
                                     Text(
                                       data['servicename'],
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 17),
+                                      style: const TextStyle(fontSize: 17),
                                     )
                                   ],
                                 ),
@@ -142,33 +110,38 @@ class _HomeState extends State<Home> {
                   }
                 },
               ),
-              SizedBox(height: 34),
+              const SizedBox(height: 34),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Services Providers',
-                    style: TextStyle(fontSize: 16),
+                    'Services',
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey.shade700),
                   ),
                   InkWell(
-                    child: Text(
-                      'See All',
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFFF127EC3),
-                          fontWeight: FontWeight.w500),
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 18),
+                      child: const Text(
+                        'See All',
+                        style: TextStyle(
+                            fontSize: 17,
+                            color: Color(0xFFF127EC3),
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 24),
+              const SizedBox(height: 24),
               Fetchcompanydata(),
               // ? recomended card service provider (employees)
             ]),
           ),
         ),
       ),
-      drawer: Mydrawer(),
     );
   }
 }
@@ -184,10 +157,10 @@ class _FetchcompanydataState extends State<Fetchcompanydata> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('employe').snapshots(),
+      stream: FirebaseFirestore.instance.collection('service').snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(
               color: Colors.blue,
             ),
@@ -196,50 +169,140 @@ class _FetchcompanydataState extends State<Fetchcompanydata> {
           return SizedBox(
             height: 300,
             child: ListView.builder(
-              scrollDirection: Axis.vertical,
+              scrollDirection: Axis.horizontal,
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
                 final result = snapshot.data!.docs[index];
+                final serviceid = snapshot.data!.docs[index].id;
                 return Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Container(
-                    width: double.infinity,
-                    height: 80,
-                    decoration: BoxDecoration(color: Colors.white),
-                    // margin: const EdgeInsets.only(top: 20),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Displaysignlecompanydetail(
-                                        id: result['id'].toString(),
-                                        fullname: result['fullname'].toString(),
-                                        img: result['profile_image'].toString(),
-                                        phone: result['phone'].toString(),
-                                        email: result['email'].toString(),
-                                        city: result['city'].toString(),
-                                        address: result['address'].toString(),
-                                        servicetype:
-                                            result['servicetype'].toString())));
-                      },
-                      child: Card(
-                        elevation: 2,
-                        child: Column(
-                          children: <Widget>[
-                            ListTile(
-                              leading: Image.network(
-                                result['profile_image'],
-                              ),
-                              title: Text(result['fullname']),
-                              subtitle: Text(
-                                result['servicetype'],
-                                maxLines: 1,
-                              ),
-                            ),
+                  padding: const EdgeInsets.all(12),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SingleServicedetail(
+                                    serviceid: serviceid.toString(),
+                                    servicename: result['Service_name'],
+                                    serviceprice: result['Service_price'],
+                                    servicetype: result['Service_type'],
+                                    serviceimg: result['Service_image'],
+                                    serviceduration: result['Service_duration'],
+                                    servicestatus: result['Service_status'],
+                                    servicediscount:
+                                        result['Servicec_discount'],
+                                    personcreatedservice:
+                                        result['person_created_service'],
+                                    servicecategory: result['Service_category'],
+                                    servicedescription:
+                                        result['Service_description'],
+                                    serviceaddress: result['Service_address'],
+                                  )));
+                    },
+                    child: Container(
+                      width: 240,
+                      height: 300,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.2),
+                              blurRadius: 7,
+                            )
                           ],
-                        ),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                              height: 185,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.2),
+                                      blurRadius: 7,
+                                    )
+                                  ],
+                                  image: DecorationImage(
+                                    image:
+                                        NetworkImage(result['Service_image']),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                children: [
+                                  Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          width: 100,
+                                          height: 34,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Center(
+                                              child: Text(
+                                            result['Service_category'],
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                letterSpacing: 1.2,
+                                                color: Color(0xFFF5f60ba),
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                        ),
+                                      )),
+                                  Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          margin: const EdgeInsets.only(
+                                              left: 8, top: 10),
+                                          width: 100,
+                                          height: 34,
+                                          decoration: BoxDecoration(
+                                              color: const Color(0xFFF5f60ba),
+                                              borderRadius:
+                                                  BorderRadius.circular(20)),
+                                          child: Center(
+                                              child: Text(
+                                            '\$' +
+                                                result['Service_price'] +
+                                                '.00',
+                                            style: const TextStyle(
+                                                fontSize: 16,
+                                                letterSpacing: 1.2,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                        ),
+                                      )),
+                                ],
+                              )),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ListTile(
+                            // mainAxisSize: MainAxisSize.min,
+                            title: Text(
+                              // result['Service_name'],
+                              result['Service_name'],
+                              style: TextStyle(
+                                  fontSize: 19, fontWeight: FontWeight.w500),
+                            ),
+
+                            subtitle: Text(
+                              // result['Service_description'],
+                              result['Service_description'],
+                              maxLines: 1,
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

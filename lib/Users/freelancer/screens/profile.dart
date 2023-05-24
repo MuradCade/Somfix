@@ -270,7 +270,7 @@ class _ProfilescreenState extends State<Profilescreen> {
                               Icon(
                                 Icons.keyboard_arrow_right,
                                 size: 32,
-                                color: Color(0xFFF5f60ba),
+                                color: Color(0xFFFa7a7a7),
                               ),
                             ],
                           )

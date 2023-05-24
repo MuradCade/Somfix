@@ -15,7 +15,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool isloading = false;
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController pwdcontroler = TextEditingController();
   // instace of class called auth inside login-auth.dart file
@@ -89,7 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
               // Login btn
               InkWell(
                 onTap: () async {
-                  Future.delayed(Duration(seconds: 1));
                   String output = await auth.login(
                       email: emailcontroller.text, password: pwdcontroler.text);
 
@@ -110,44 +108,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                 },
                 child: Container(
-                  alignment: Alignment.center,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFF5f60ba),
-                    borderRadius: BorderRadius.circular(6),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 10,
-                      )
-                    ],
-                  ),
-                  child: !isloading
-                      ? Text(
-                          'Login',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18),
+                    alignment: Alignment.center,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF5f60ba),
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
                         )
-                      : Center(
-                          heightFactor: 20,
-                          child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                        ),
-                ),
+                      ],
+                    ),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18),
+                    )),
               ),
               // Signin with google
-              SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {
-                  google.Signinwithgoogle();
-                },
-                child: ScialmediaGlobal(),
-              ),
+
               // forget password
               SizedBox(
                 height: 20,

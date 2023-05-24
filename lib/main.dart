@@ -1,19 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:somfixapp/resources/intro-screen.dart';
-
 import 'data/checklogin.dart';
-// import 'mainscreens/signup.dart';
 import 'splashscreen.dart';
-// import 'mainscreens/login.dart';
 
-int? isviewed;
+
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

@@ -4,7 +4,6 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'data/checklogin.dart';
 import 'splashscreen.dart';
 
-
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

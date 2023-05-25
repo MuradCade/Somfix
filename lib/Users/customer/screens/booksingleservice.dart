@@ -231,9 +231,9 @@ class _BooksingleserviceState extends State<Booksingleservice> {
                                     firstDate: DateTime(1950),
                                     //DateTime.now() - not to allow to choose before today.
                                     lastDate: DateTime(2100));
-                                String formattedDate =
-                                    DateFormat('yyyy-MM-dd').format(pickedDate);
-                                print(pickedDate);
+                                // String formattedDate =
+                                //     DateFormat('yyyy-MM-dd').format(pickedDate);
+                                // print(pickedDate);
                                 TimeOfDay? newtime = await showTimePicker(
                                     context: context,
                                     initialTime: TimeOfDay(
@@ -358,6 +358,7 @@ class Secondpagebookingservice extends StatefulWidget {
 }
 
 class _SecondpagebookingserviceState extends State<Secondpagebookingservice> {
+  final String num = '1';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -516,10 +517,72 @@ class _SecondpagebookingserviceState extends State<Secondpagebookingservice> {
                     height: 10,
                   ),
                   Container(
-                    margin: EdgeInsets.only(left: 12.0, right: 12),
-                    child: Divider(
-                      color: Colors.grey,
+                    padding: EdgeInsets.all(
+                      12.0,
                     ),
+                    width: double.infinity,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 249, 251, 252),
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Servicename',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 75,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                      color: Colors.indigo[100],
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Row(
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(
+                                          Icons.arrow_drop_down,
+                                          color: Colors.indigo,
+                                        ),
+                                      ),
+                                      Text(num),
+                                      IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.arrow_drop_up,
+                                            color: Colors.indigo,
+                                          ))
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                              color: Colors.red[100],
+                              borderRadius: BorderRadius.circular(20)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 12.0, top: 4, bottom: 4),

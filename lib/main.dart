@@ -6,7 +6,20 @@ import 'splashscreen.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    name: 'somfixapp',
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyCf6rxgmGh0x1T4XeG3O5YLgm9RFJhVNDs",
+        authDomain: "finalproject-ccdba.firebaseapp.com",
+        databaseURL:
+            "https://finalproject-ccdba-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "finalproject-ccdba",
+        storageBucket: "finalproject-ccdba.appspot.com",
+        messagingSenderId: "33547640272",
+        appId: "1:33547640272:web:a03b24e8b0bba98327edd5",
+        measurementId: "G-51LXG9LEBM"),
+  );
+
   runApp(const MyApp());
 }
 

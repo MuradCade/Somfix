@@ -28,15 +28,15 @@ class _CheckloginState extends State<Checklogin> {
           stream: authchange,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(
                   backgroundColor: Colors.yellow,
                 ),
               );
             } else if (snapshot.hasData) {
-              return Logout();
+              return const Logout();
             } else {
-              return LoginScreen();
+              return const LoginScreen();
             }
           }),
     );
@@ -68,15 +68,18 @@ class _LogoutState extends State<Logout> {
                 .snapshots(),
             builder: (context, snapshot) {
               // List<String> clientwidgets = [];
+
               if (snapshot.hasData) {
                 // FirebaseAuth.instance.signOut();
+
                 final clients = snapshot.data?.docs.reversed.toList();
-                final useremail = FirebaseAuth.instance.currentUser?.email;
+                final useremail = FirebaseAuth.instance.currentUser!.email;
                 for (var clients in clients!) {
+                  // print("username is ${clients['role']}");
                   if (clients['role'] == 'admin') {
                     // print('welcome admin');
                     WidgetsBinding.instance.addPostFrameCallback((_) =>
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
@@ -84,53 +87,55 @@ class _LogoutState extends State<Logout> {
                   } else if (clients['role'] == 'company') {
                     // print('welcome company');
                     WidgetsBinding.instance.addPostFrameCallback((_) =>
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Companymainscreen())));
+                                builder: (context) =>
+                                    const Companymainscreen())));
                   } else if (clients['role'] == 'freelancer') {
                     // print('welcome employee');
                     WidgetsBinding.instance.addPostFrameCallback((_) =>
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => Freelancer())));
                   } else if (clients['role'] == 'personal') {
                     // print('welcome customer');
                     WidgetsBinding.instance.addPostFrameCallback((_) =>
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Customermainscreen())));
+                                builder: (context) =>
+                                    const Customermainscreen())));
                   } else if (clients['role'] == 'employee') {
                     // print('welcome customer');
                     WidgetsBinding.instance.addPostFrameCallback((_) =>
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Employeemainscreen())));
+                                builder: (context) =>
+                                    const Employeemainscreen())));
                   } else {
                     // print('no role was fetched');
                     WidgetsBinding.instance.addPostFrameCallback((_) =>
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => LoginScreen())));
+                                builder: (context) => const LoginScreen())));
                   }
                 }
               } else {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(
                     backgroundColor: Colors.yellow,
                   ),
                 );
               }
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(
                   backgroundColor: Colors.orange,
                 ),
               );
-              ;
             },
           ),
         ],

@@ -89,74 +89,97 @@ class _CreateserviceState extends State<Createservice> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     } else {
-                      return SizedBox(
-                        height: 600,
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            final result = snapshot.data!.docs[index];
-                            final id = snapshot.data!.docs[index].id;
-                            return InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            Createdservicedetailscreen(
-                                              id: id,
-                                              image: result['Service_image'],
-                                              category:
-                                                  result['Service_category'],
-                                              servicename:
-                                                  result['Service_name'],
-                                              price: result['Service_price'],
-                                              description:
-                                                  result['Service_description'],
-                                              duration:
-                                                  result['Service_duration'],
-                                              serviceaddress:
-                                                  result['Service_address'],
-                                              servicestatus:
-                                                  result['Service_status'],
-                                              servicetype:
-                                                  result['Service_type'],
-                                              discount:
-                                                  result['Servicec_discount'],
-                                            )));
-                              },
-                              child: Card(
-                                margin: const EdgeInsets.only(top: 20),
-                                child: Column(
-                                  children: <Widget>[
-                                    Image.network(
-                                      result['Service_image'],
-                                      width: double.infinity,
-                                    ),
-                                    ListTile(
-                                      // mainAxisSize: MainAxisSize.min,
-                                      title: Text(
-                                        result['Service_name'],
-                                        style: TextStyle(
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.w500),
+                      if (snapshot.data!.docs.length < 1) {
+                        return const Padding(
+                          padding: EdgeInsets.all(28.0),
+                          child: Center(
+                            child: Text(
+                              'There are no services to be displayed',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return SizedBox(
+                          height: 600,
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              final result = snapshot.data!.docs[index];
+                              final id = snapshot.data!.docs[index].id;
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Createdservicedetailscreen(
+                                                id: id.toString(),
+                                                image: result['Service_image'],
+                                                category:
+                                                    result['Service_category'],
+                                                servicename:
+                                                    result['Service_name'],
+                                                price: result['Service_price']
+                                                            .toString() ==
+                                                        ''
+                                                    ? '0'
+                                                    : result['Service_price']
+                                                        .toString(),
+                                                description: result[
+                                                    'Service_description'],
+                                                duration:
+                                                    result['Service_duration'],
+                                                serviceaddress:
+                                                    result['Service_address'],
+                                                servicestatus:
+                                                    result['Service_status'],
+                                                servicetype:
+                                                    result['Service_type'],
+                                                discount: result[
+                                                                'Service_discount']
+                                                            .toString() ==
+                                                        ''
+                                                    ? '0'
+                                                    : result['Service_discount']
+                                                        .toString(),
+                                              )));
+                                },
+                                child: Card(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Image.network(
+                                        result['Service_image'],
+                                        width: double.infinity,
                                       ),
+                                      ListTile(
+                                        // mainAxisSize: MainAxisSize.min,
+                                        title: Text(
+                                          result['Service_name'],
+                                          style: const TextStyle(
+                                              fontSize: 19,
+                                              fontWeight: FontWeight.w500),
+                                        ),
 
-                                      subtitle: Text(
-                                        result['Service_description'],
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                        maxLines: 1,
+                                        subtitle: Text(
+                                          result['Service_description'],
+                                          style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                          maxLines: 1,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                      );
+                              );
+                            },
+                          ),
+                        );
+                      }
+                      // return Container();
                     }
                   },
                 ),
@@ -512,7 +535,12 @@ class _AddServiceState extends State<AddService> {
                           context: context,
                           initialTime: TimeOfDay(
                               hour: datetime.hour, minute: datetime.minute));
-                      datetimepicker.add(newtime?.format(context));
+
+                      // print(newtime?.hour);
+                      // print();
+                      String duration =
+                          '${newtime?.hour}' + ':' + '${newtime?.minute} hr';
+                      datetimepicker.add(duration);
                     },
                   ),
                 ),

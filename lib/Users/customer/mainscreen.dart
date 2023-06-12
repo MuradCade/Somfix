@@ -41,7 +41,7 @@ class _CustomermainscreenState extends State<Customermainscreen> {
                   // padding: EdgeInsets.only(bottom: 6),
                   margin: EdgeInsets.only(bottom: 2),
                   child: Image.asset(
-                    'assets/home.png',
+                    'assets/home-icon.png',
                     height: 32,
                   ),
                 ),
@@ -54,7 +54,15 @@ class _CustomermainscreenState extends State<Customermainscreen> {
             BottomNavigationBarItem(
                 icon: Container(
                     margin: EdgeInsets.only(bottom: 2),
-                    child: Icon(Icons.calendar_month_outlined, size: 28)),
+                    child: Image.asset(
+                      'assets/booking-icon.png',
+                      height: 28,
+                    )),
+                activeIcon: Container(
+                  margin: EdgeInsets.only(bottom: 2),
+                  child: Image.asset('assets/booking-icon.png',
+                      height: 28, color: Colors.blue),
+                ),
                 label: 'My Booking'),
             BottomNavigationBarItem(
                 icon: Container(
@@ -74,13 +82,13 @@ class _CustomermainscreenState extends State<Customermainscreen> {
                 icon: Container(
                   margin: EdgeInsets.only(bottom: 3),
                   child: Image.asset(
-                    'assets/user.png',
+                    'assets/profile-icon.png',
                     height: 28,
                   ),
                 ),
                 activeIcon: Container(
                   margin: EdgeInsets.only(bottom: 2),
-                  child: Image.asset('assets/user.png',
+                  child: Image.asset('assets/profile-icon.png',
                       height: 28, color: Colors.blue),
                 ),
                 label: 'Profile'),

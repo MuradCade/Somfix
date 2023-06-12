@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:somfixapp/Users/freelancer/screens/profile_allservices.dart';
 import '../messages.dart';
-import '../notification.dart';
 import 'created_service_detail_screen.dart';
 
 class Homescreen extends StatefulWidget {
@@ -37,8 +37,27 @@ class _HomescreenState extends State<Homescreen> {
         backgroundColor: Color(0xFFF5f60ba),
         elevation: 0,
         actions: [
-          Messageinbox(),
-          MyNotification(),
+          Container(
+            margin: EdgeInsets.only(right: 2),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Messageinbox()));
+              },
+              icon: Container(
+                width: 100,
+                height: 30,
+                decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(6)),
+                child: Icon(
+                  Icons.message_outlined,
+                  size: 18,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -389,15 +408,23 @@ class _HomescreenState extends State<Homescreen> {
                                   fontSize: 17, fontWeight: FontWeight.w500),
                             )),
                         InkWell(
-                          child: Container(
-                              margin: EdgeInsets.only(right: 16),
-                              child: Text(
-                                'View All',
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: Color(0xFFF5f60ba),
-                                    fontWeight: FontWeight.w400),
-                              )),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Createservice()));
+                            },
+                            child: Container(
+                                margin: EdgeInsets.only(right: 16),
+                                child: Text(
+                                  'View All',
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: Color(0xFFF5f60ba),
+                                      fontWeight: FontWeight.w400),
+                                )),
+                          ),
                         )
                       ],
                     ),
@@ -416,131 +443,162 @@ class _HomescreenState extends State<Homescreen> {
                           return const Center(
                               child: CircularProgressIndicator());
                         } else {
-                          return SizedBox(
-                            height: 300,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                final result = snapshot.data!.docs[index];
-                                final id = snapshot.data!.docs[index].id;
-                                // final id = snapshot.data.;
-                                return Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Createdservicedetailscreen(
-                                                    id: id,
-                                                    image:
-                                                        result['Service_image'],
-                                                    category: result[
-                                                        'Service_category'],
-                                                    servicename:
-                                                        result['Service_name'],
-                                                    price:
-                                                        result['Service_price'],
-                                                    description: result[
-                                                        'Service_description'],
-                                                    duration: result[
-                                                        'Service_duration'],
-                                                    serviceaddress: result[
-                                                        'Service_address'],
-                                                    servicestatus: result[
-                                                        'Service_status'],
-                                                    servicetype:
-                                                        result['Service_type'],
-                                                    discount: result[
-                                                        'Servicec_discount'],
-                                                  )));
-                                    },
-                                    child: Container(
-                                      width: 250,
-                                      height: 150,
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey[50],
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              height: 200,
-                                              decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                        result['Service_image'],
-                                                      ),
-                                                      fit: BoxFit.cover),
-                                                  borderRadius:
-                                                      BorderRadius.circular(4)),
-                                              child: Align(
-                                                alignment: Alignment.topLeft,
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Container(
+                          if (snapshot.data!.docs.isEmpty) {
+                            return Padding(
+                              padding: const EdgeInsets.all(28.0),
+                              child: Center(
+                                child: Text(
+                                  'There are no services to be displayed',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return SizedBox(
+                              height: 300,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  final result = snapshot.data!.docs[index];
+                                  final id = snapshot.data!.docs[index].id;
+                                  // final id = snapshot.data.;
+                                  return Padding(
+                                    padding: const EdgeInsets.all(12),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Createdservicedetailscreen(
+                                                      id: id.toString(),
+                                                      image: result[
+                                                              'Service_image']
+                                                          .toString(),
+                                                      category: result[
+                                                              'Service_category']
+                                                          .toString(),
+                                                      servicename: result[
+                                                          'Service_name'],
+                                                      price: result['Service_price']
+                                                                  .toString() ==
+                                                              ''
+                                                          ? '0'
+                                                          : result[
+                                                                  'Service_price']
+                                                              .toString(),
+                                                      description: result[
+                                                              'Service_description']
+                                                          .toString(),
+                                                      duration: result[
+                                                              'Service_duration']
+                                                          .toString(),
+                                                      serviceaddress: result[
+                                                              'Service_address']
+                                                          .toString(),
+                                                      servicestatus: result[
+                                                              'Service_status']
+                                                          .toString(),
+                                                      servicetype:
+                                                          result['Service_type']
+                                                              .toString(),
+                                                      discount: result[
+                                                                      'Service_discount']
+                                                                  .toString() ==
+                                                              ''
+                                                          ? '0'
+                                                          : result[
+                                                                  'Service_discount']
+                                                              .toString(),
+                                                    )));
+                                      },
+                                      child: Container(
+                                        width: 250,
+                                        height: 150,
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey[50],
+                                            borderRadius:
+                                                BorderRadius.circular(4)),
+                                        child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                height: 200,
+                                                decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: NetworkImage(
+                                                          result[
+                                                              'Service_image'],
+                                                        ),
+                                                        fit: BoxFit.cover),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4)),
+                                                child: Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Padding(
                                                     padding:
                                                         EdgeInsets.all(8.0),
-                                                    width: 100,
-                                                    height: 34,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(20)),
-                                                    child: Center(
-                                                      child: Text(
-                                                        result[
-                                                            'Service_status'],
-                                                        style: TextStyle(
-                                                            fontSize: 16,
-                                                            letterSpacing: 1.2,
-                                                            color: result[
-                                                                        'Service_status'] ==
-                                                                    'Active'
-                                                                ? Colors
-                                                                    .green[400]
-                                                                : Colors
-                                                                    .red[500],
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
+                                                      width: 105,
+                                                      height: 34,
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20)),
+                                                      child: Center(
+                                                        child: Text(
+                                                          result[
+                                                              'Service_category'],
+                                                          style: TextStyle(
+                                                              fontSize: 16,
+                                                              letterSpacing:
+                                                                  1.2,
+                                                              color:
+                                                                  Colors.indigo,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                            ListTile(
-                                              // mainAxisSize: MainAxisSize.min,
-                                              title: Text(
-                                                result['Service_name'],
-                                                style: TextStyle(
-                                                    fontSize: 19,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
+                                              ListTile(
+                                                // mainAxisSize: MainAxisSize.min,
+                                                title: Text(
+                                                  result['Service_name'],
+                                                  style: TextStyle(
+                                                      fontSize: 19,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
 
-                                              subtitle: Text(
-                                                result['Service_description'],
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                                maxLines: 1,
+                                                subtitle: Text(
+                                                  result['Service_description'],
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                  maxLines: 1,
+                                                ),
                                               ),
-                                            ),
-                                          ]),
+                                            ]),
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
-                          );
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                          return Container();
                         }
                       },
                     )

@@ -64,14 +64,21 @@ class _AccountTypeState extends State<AccountType> {
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: const Text('Information'),
+                            title: const Text(
+                              'Information',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.5),
+                            ),
                             content: const Text(
                               'Looks like you have access to multiple account type. Choose from the options below to get started using our app',
                               maxLines: 5,
                               style: TextStyle(
                                   height: 1.5,
                                   fontSize: 16,
-                                  letterSpacing: 1.5),
+                                  letterSpacing: 1.5,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black87),
                             ),
                             actions: [
                               ElevatedButton(
@@ -114,7 +121,7 @@ class _AccountTypeState extends State<AccountType> {
                               'assets/user.png',
                               height: 45,
                             ),
-                            title: const Text('Personal use'),
+                            title: const Text('Personal'),
                             subtitle: const Text('Create Personal Account'),
                           ),
                         ],
@@ -145,7 +152,7 @@ class _AccountTypeState extends State<AccountType> {
                               'assets/freelance.png',
                               height: 45,
                             ),
-                            title: const Text('A Freelancer'),
+                            title: const Text('A Freelance'),
                             subtitle:
                                 const Text('Im a freelancer, looking for work'),
                           ),
@@ -176,7 +183,7 @@ class _AccountTypeState extends State<AccountType> {
                               'assets/company.png',
                               height: 45,
                             ),
-                            title: const Text('Company use'),
+                            title: const Text('Company'),
                             subtitle: const Text('Create Company Account'),
                           ),
                         ],

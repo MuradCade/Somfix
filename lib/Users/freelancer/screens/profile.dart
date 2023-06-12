@@ -1,10 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:somfixapp/Users/freelancer/screens/privacypolicy.dart';
 
 import '../../../mainscreens/login.dart';
-import '../../customer/screens/notification.dart';
 import '../messages.dart';
+import 'changepassword.dart';
+import 'edit_profile.dart';
 import 'profile_allservices.dart';
+import 'wallet_history.dart';
 
 class Profilescreen extends StatefulWidget {
   const Profilescreen({super.key});
@@ -27,8 +31,27 @@ class _ProfilescreenState extends State<Profilescreen> {
         backgroundColor: Color(0xFFF5f60ba),
         elevation: 0,
         actions: [
-          Messageinbox(),
-          MyNotification(),
+          Container(
+            margin: EdgeInsets.only(right: 2),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Messageinbox()));
+              },
+              icon: Container(
+                width: 100,
+                height: 30,
+                decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    borderRadius: BorderRadius.circular(6)),
+                child: Icon(
+                  Icons.message_outlined,
+                  size: 18,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+          )
         ],
       ),
       body: SafeArea(
@@ -39,48 +62,73 @@ class _ProfilescreenState extends State<Profilescreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: double.infinity,
-                  height: 220,
-                  decoration: BoxDecoration(color: Color(0xFFF5f60ba)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  width: 4, color: Color(0xFFFffffff)),
-                              borderRadius: BorderRadius.circular(150)),
-                          child: CircleAvatar(
-                            backgroundColor: Colors.transparent,
-                            radius: 50,
-                            child: Image.asset('assets/user.png'),
+                StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('employe')
+                      .where('id',
+                          isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                      .snapshots(),
+                  // initialData: initialData,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      final result = snapshot.data!.docs.reversed.toList();
+                      for (var result in result) {
+                        return Container(
+                          width: double.infinity,
+                          height: 220,
+                          decoration: BoxDecoration(color: Color(0xFFF5f60ba)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: 4,
+                                        color: Color(0xFFFffffff),
+                                      ),
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                              result['profile_image'])),
+                                      borderRadius: BorderRadius.circular(150)),
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    radius: 50,
+                                    // child: Image.asset('assets/user.png'),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Text(
+                                result['fullname'].toString(),
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFFFffffff)),
+                              ),
+                              SizedBox(
+                                height: 6,
+                              ),
+                              Text(
+                                result['email'].toString(),
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFFFffffff)),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        'Murad Cade',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFFFffffff)),
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        'murad@example.com',
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFFFffffff)),
-                      ),
-                    ],
-                  ),
+                        );
+                      }
+                      return Container();
+                    }
+                  },
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -162,24 +210,32 @@ class _ProfilescreenState extends State<Profilescreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.person,
-                                size: 32,
-                                color: Color(0xFFF5f60ba),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                'Edit Profile',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black87),
-                              ),
-                            ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Editprofile()));
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.person,
+                                  size: 32,
+                                  color: Color(0xFFF5f60ba),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  'Edit Profile',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black87),
+                                ),
+                              ],
+                            ),
                           ),
                           Row(
                             children: [
@@ -242,66 +298,36 @@ class _ProfilescreenState extends State<Profilescreen> {
                         height: 8,
                       ),
                       Divider(color: Colors.grey[200], thickness: 2),
-                      // ! Payment (setup payment)
+                      //  ! Wallet History
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.money,
-                                size: 32,
-                                color: Color(0xFFF5f60ba),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                'Payment Setup',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black87),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.keyboard_arrow_right,
-                                size: 32,
-                                color: Color(0xFFFa7a7a7),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Divider(color: Colors.grey[200], thickness: 2),
-                      // ! Wallet History
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.credit_card,
-                                size: 32,
-                                color: Color(0xFFF5f60ba),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                'Wallet History',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black87),
-                              ),
-                            ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Wallethistory()));
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.history,
+                                  size: 32,
+                                  color: Color(0xFFF5f60ba),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  'Wallet History',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black87),
+                                ),
+                              ],
+                            ),
                           ),
                           Row(
                             children: [
@@ -319,38 +345,46 @@ class _ProfilescreenState extends State<Profilescreen> {
                       ),
                       Divider(color: Colors.grey[200], thickness: 2),
                       // ! change password
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.lock,
-                                size: 32,
-                                color: Color(0xFFF5f60ba),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                'Change Password',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black87),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.keyboard_arrow_right,
-                                size: 32,
-                                color: Color(0xFFFa7a7a7),
-                              ),
-                            ],
-                          )
-                        ],
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Changepassword()));
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.lock,
+                                  size: 32,
+                                  color: Color(0xFFF5f60ba),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  'Change Password',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black87),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.keyboard_arrow_right,
+                                  size: 32,
+                                  color: Color(0xFFFa7a7a7),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 8,
@@ -360,24 +394,32 @@ class _ProfilescreenState extends State<Profilescreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.info_rounded,
-                                size: 32,
-                                color: Color(0xFFF5f60ba),
-                              ),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                'About',
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black87),
-                              ),
-                            ],
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Privacypolicy()));
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.info_rounded,
+                                  size: 32,
+                                  color: Color(0xFFF5f60ba),
+                                ),
+                                SizedBox(
+                                  width: 15,
+                                ),
+                                Text(
+                                  'Privacy Policy',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black87),
+                                ),
+                              ],
+                            ),
                           ),
                           Row(
                             children: [
@@ -412,6 +454,20 @@ class _ProfilescreenState extends State<Profilescreen> {
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1.5),
                           ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      // ! version of the app
+                      Center(
+                        child: Text(
+                          'V1.0',
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w500),
+                          textAlign: TextAlign.center,
                         ),
                       )
                       // ! version of the app

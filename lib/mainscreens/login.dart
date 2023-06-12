@@ -5,6 +5,7 @@ import '../data/personalaccountAuth.dart';
 import '../data/signinwithgoogle.dart';
 import '../resources/socials-login.dart';
 import '../resources/textform.dart';
+import 'forgetpwd.dart';
 // import 'package:page_transition/page_transition.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.transparent, //change your color here
         ),
         backgroundColor: Colors.transparent,
@@ -35,11 +36,11 @@ class _LoginScreenState extends State<LoginScreen> {
           child: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -49,10 +50,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 100,
                     width: 160,
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Text(
+              const Text(
                 'Login to your Account',
                 style: TextStyle(
                     color: Color(0xFFF4F4F4F),
@@ -60,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.w500,
                     letterSpacing: 1.5),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               // Email textfield
@@ -70,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Obsecure: false,
                 hintext: 'Email',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
 
@@ -81,10 +82,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 Obsecure: true,
                 hintext: 'Password',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-
+              Container(
+                margin: const EdgeInsets.only(left: 210),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Forgetpwd()));
+                  },
+                  child: const Text(
+                    'Forget Password?',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.indigo,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
               // Login btn
               InkWell(
                 onTap: () async {
@@ -100,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(
                         output,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w700),
                       ),
                       duration: const Duration(seconds: 1),
@@ -111,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.center,
                     height: 55,
                     decoration: BoxDecoration(
-                      color: Color(0xFFF5f60ba),
+                      color: const Color(0xFFF5f60ba),
                       borderRadius: BorderRadius.circular(6),
                       boxShadow: [
                         BoxShadow(
@@ -120,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         )
                       ],
                     ),
-                    child: Text(
+                    child: const Text(
                       'Login',
                       style: TextStyle(
                           color: Colors.white,
@@ -131,23 +153,26 @@ class _LoginScreenState extends State<LoginScreen> {
               // Signin with google
 
               // forget password
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Text(
-                  'Don\'t have an account yet!',
-                  style: TextStyle(fontSize: 15, color: Color(0xFFF4F4F4F)),
+                const Text(
+                  'Don\'t have an account yet?',
+                  style: TextStyle(
+                      fontSize: 16, color: Color.fromARGB(255, 18, 18, 18)),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 6,
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AccountType()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AccountType()));
                   },
-                  child: Text(
+                  child: const Text(
                     'Create Account',
                     style: TextStyle(
                         fontSize: 16,

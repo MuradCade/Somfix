@@ -16,7 +16,7 @@ class Authtication {
       try {
         final user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: email, password: password);
-
+        FirebaseAuth.instance.currentUser!.getIdTokenResult(true);
         output = 'success';
       } on FirebaseAuthException catch (e) {
         output = e.message.toString();

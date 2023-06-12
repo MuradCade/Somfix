@@ -17,7 +17,7 @@ class _ForgetpwdState extends State<Forgetpwd> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.black, //change your color here
         ),
         backgroundColor: Colors.transparent,
@@ -27,13 +27,13 @@ class _ForgetpwdState extends State<Forgetpwd> {
         width: double.infinity,
         child: SingleChildScrollView(
           child: Column(children: [
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Container(
               alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(left: 18),
-              child: Text(
+              margin: const EdgeInsets.only(left: 18),
+              child: const Text(
                 'Reset Password',
                 style: TextStyle(
                   color: Colors.black,
@@ -43,31 +43,31 @@ class _ForgetpwdState extends State<Forgetpwd> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
               alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(left: 18),
-              child: Text(
+              margin: const EdgeInsets.only(left: 18),
+              child: const Text(
                 'Enter the email associated with your account\n and we\'ll send email with instructions to \n reset your password.',
-                style: TextStyle(
-                    fontSize: 16, height: 1.5, color: Colors.grey.shade700),
+                style:
+                    TextStyle(fontSize: 17, height: 1.5, color: Colors.black),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
               alignment: Alignment.topLeft,
-              margin: EdgeInsets.only(left: 18),
-              child: Text(
+              margin: const EdgeInsets.only(left: 18),
+              child: const Text(
                 'Email Address',
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
             Container(
-              padding: EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(15.0),
               child: TextFormGlobal(
                   controller: emailcontroller,
                   hintext: 'Enter Email...',
@@ -77,7 +77,7 @@ class _ForgetpwdState extends State<Forgetpwd> {
 
             // forgetpwd btn
             Padding(
-              padding: EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(15.0),
               child: InkWell(
                 // forget pwd logic
                 onTap: () async {
@@ -89,25 +89,25 @@ class _ForgetpwdState extends State<Forgetpwd> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EmailSendResponse()));
+                              builder: (context) => const EmailSendResponse()));
                     } on FirebaseAuthException catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text(
                           e.message.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 17, fontWeight: FontWeight.w700),
                         ),
                         duration: const Duration(seconds: 1),
                       ));
                     }
                   } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text(
                         'Empty Email Field',
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w700),
                       ),
-                      duration: const Duration(seconds: 1),
+                      duration: Duration(seconds: 1),
                     ));
                   }
                 },
@@ -115,7 +115,7 @@ class _ForgetpwdState extends State<Forgetpwd> {
                   alignment: Alignment.center,
                   height: 55,
                   decoration: BoxDecoration(
-                    color: Color(0xFFF1E319D),
+                    color: const Color(0xFFF1E319D),
                     borderRadius: BorderRadius.circular(6),
                     boxShadow: [
                       BoxShadow(
@@ -124,7 +124,7 @@ class _ForgetpwdState extends State<Forgetpwd> {
                       )
                     ],
                   ),
-                  child: Text(
+                  child: const Text(
                     'Send Email',
                     style: TextStyle(
                         color: Colors.white,

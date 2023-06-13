@@ -874,7 +874,7 @@ class _CustomerinfoState extends State<Customerinfo> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => Chatscreen(
-                                            customerid: result['email'],
+                                            customerid: result['id'],
                                             customername: result['fullname'],
                                           )));
                             },

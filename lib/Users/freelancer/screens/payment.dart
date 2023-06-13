@@ -61,17 +61,15 @@ class _PaymentscreenState extends State<Paymentscreen> {
                     stream: FirebaseFirestore.instance
                         .collection('bookedservices')
                         .where('provideremail',
-                            isEqualTo: FirebaseAuth.instance.currentUser?.email)
+                            isEqualTo: FirebaseAuth.instance.currentUser!.email)
                         .snapshots(),
                     builder: (context, snapshot) {
                       // print(FirebaseAuth.instance.currentUser?.email);
-                      if (snapshot.data!.docs.length < 1) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(
-                          child: Text(
-                            'No Data Found',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        );
+                            child: Center(
+                          child: CircularProgressIndicator(),
+                        ));
                       } else {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {

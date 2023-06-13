@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../data/bookservice_class.dart';
 import 'aboutprovider.dart';
+import 'company_provider.dart';
 
 class Bookingdetailpage extends StatefulWidget {
   Bookingdetailpage({super.key, required this.service_id});
@@ -49,7 +50,7 @@ class _BookingdetailpageState extends State<Bookingdetailpage> {
                   } else {
                     // final result = snapshot.data!.docs[index];
                     for (var bookedservice in bookedservice!) {
-                      final servicestatus = bookedservice['servicestatus'];
+                      // final servicestatus = bookedservice['servicestatus'];
                       // collectionidlist.add(servicestatus);
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +80,25 @@ class _BookingdetailpageState extends State<Bookingdetailpage> {
                                                                 'servicestatus'] ==
                                                             'Started'.toString()
                                                         ? Colors.red[50]
-                                                        : Colors.green[50]),
+                                                        : bookedservice[
+                                                                    'servicestatus'] ==
+                                                                'Started'
+                                                                    .toString()
+                                                            ? Colors.green[50]
+                                                            : bookedservice[
+                                                                        'servicestatus'] ==
+                                                                    'Assigned'
+                                                                        .toString()
+                                                                ? Colors
+                                                                    .green[50]
+                                                                : bookedservice[
+                                                                            'servicestatus'] ==
+                                                                        'Re-Assigned'
+                                                                            .toString()
+                                                                    ? Colors.green[
+                                                                        50]
+                                                                    : Colors
+                                                                        .transparent),
                             child: Container(
                               margin: const EdgeInsets.only(left: 20, top: 6),
                               child: Row(
@@ -389,43 +408,90 @@ class _BookingdetailpageState extends State<Bookingdetailpage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          bookedservice['provideremail'],
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w500),
+                                  bookedservice['provideremail'] ==
+                                          'deep@cleaning.com'
+                                      ? Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                bookedservice['provideremail'],
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 15,
+                                            ),
+                                            InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Companydetail(
+                                                                provideremail:
+                                                                    bookedservice[
+                                                                        'provideremail'],
+                                                              )));
+                                                },
+                                                child: const Text(
+                                                  '| More',
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      color: Colors.indigo,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ))
+                                          ],
+                                        )
+                                      : Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                bookedservice['provideremail'],
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 15,
+                                            ),
+                                            InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              Aboutproviderdetail(
+                                                                provideremail:
+                                                                    bookedservice[
+                                                                        'provideremail'],
+                                                              )));
+                                                },
+                                                child: const Text(
+                                                  '| More',
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      color: Colors.indigo,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ))
+                                          ],
                                         ),
-                                      ),
-                                      const SizedBox(
-                                        width: 15,
-                                      ),
-                                      InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Aboutproviderdetail(
-                                                          provideremail:
-                                                              bookedservice[
-                                                                  'provideremail'],
-                                                        )));
-                                          },
-                                          child: const Text(
-                                            '| More',
-                                            style: TextStyle(
-                                                fontSize: 17,
-                                                color: Colors.indigo,
-                                                fontWeight: FontWeight.bold),
-                                          ))
-                                    ],
-                                  ),
                                 ],
                               ),
                             ),

@@ -161,15 +161,47 @@ class _HomescreenState extends State<Homescreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                left: 12, top: 18),
-                                            child: Text(
-                                              '0',
-                                              style: TextStyle(
-                                                  fontSize: 26,
-                                                  color: Colors.white),
-                                            ),
+                                          StreamBuilder(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('bookedservices')
+                                                .where('provideremail',
+                                                    isEqualTo: user!.email)
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              } else {
+                                                if (snapshot
+                                                    .data!.docs.isEmpty) {
+                                                  return Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 12, top: 18),
+                                                    child: Text(
+                                                      '0',
+                                                      style: TextStyle(
+                                                          fontSize: 26,
+                                                          color: Colors.white),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 12, top: 18),
+                                                    child: Text(
+                                                      snapshot.data!.docs.length
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 26,
+                                                          color: Colors.white),
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            },
                                           ),
                                           Container(
                                             margin: EdgeInsets.only(
@@ -223,15 +255,47 @@ class _HomescreenState extends State<Homescreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                left: 12, top: 18),
-                                            child: Text(
-                                              '0',
-                                              style: TextStyle(
-                                                  fontSize: 26,
-                                                  color: Colors.white),
-                                            ),
+                                          StreamBuilder(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('service')
+                                                .where('person_created_service',
+                                                    isEqualTo: user!.email)
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              } else {
+                                                if (snapshot
+                                                    .data!.docs.isEmpty) {
+                                                  return Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 12, top: 18),
+                                                    child: Text(
+                                                      '0',
+                                                      style: TextStyle(
+                                                          fontSize: 26,
+                                                          color: Colors.white),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 12, top: 18),
+                                                    child: Text(
+                                                      snapshot.data!.docs.length
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 26,
+                                                          color: Colors.white),
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            },
                                           ),
                                           Container(
                                             margin: EdgeInsets.only(
@@ -285,15 +349,49 @@ class _HomescreenState extends State<Homescreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                left: 12, top: 18),
-                                            child: Text(
-                                              '\$0',
-                                              style: TextStyle(
-                                                  fontSize: 26,
-                                                  color: Colors.white),
-                                            ),
+                                          StreamBuilder(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('payment')
+                                                .where('service_provider',
+                                                    isEqualTo: user!.email)
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                );
+                                              } else {
+                                                if (snapshot
+                                                    .data!.docs.isEmpty) {
+                                                  return Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 12, top: 18),
+                                                    child: Text(
+                                                      '0',
+                                                      style: TextStyle(
+                                                          fontSize: 26,
+                                                          color: Colors.white),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 12, top: 18),
+                                                    child: Text(
+                                                      '\$' +
+                                                          snapshot
+                                                              .data!.docs.length
+                                                              .toString(),
+                                                      style: TextStyle(
+                                                          fontSize: 26,
+                                                          color: Colors.white),
+                                                    ),
+                                                  );
+                                                }
+                                              }
+                                            },
                                           ),
                                           Container(
                                             margin: EdgeInsets.only(
@@ -331,67 +429,6 @@ class _HomescreenState extends State<Homescreen> {
                           ),
                         ),
                         // ! card 4
-                        Card(
-                          child: Column(
-                            children: [
-                              Container(
-                                width: 170,
-                                height: 100,
-                                decoration: BoxDecoration(
-                                    color: Color(0xFFF5f60ba),
-                                    borderRadius: BorderRadius.circular(6)),
-                                child: Center(
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                left: 12, top: 18),
-                                            child: Text(
-                                              '\$0',
-                                              style: TextStyle(
-                                                  fontSize: 24,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.only(
-                                                right: 12, top: 10),
-                                            child: SizedBox(
-                                              height: 40,
-                                              width: 40,
-                                              child: Card(
-                                                color: Colors.white,
-                                                child: Icon(
-                                                  Icons.credit_card,
-                                                  size: 22,
-                                                  color: Color(0xFFF5f60ba),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        margin:
-                                            EdgeInsets.only(top: 10, right: 38),
-                                        child: Text(
-                                          'Wallet Detail',
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              color: Colors.white),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                     SizedBox(

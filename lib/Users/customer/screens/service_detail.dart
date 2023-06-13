@@ -44,14 +44,6 @@ class SingleServicedetail extends StatefulWidget {
 }
 
 class _SingleServicedetailState extends State<SingleServicedetail> {
-  Future<void> _makePhoneCall(String phoneNumber) async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: phoneNumber,
-    );
-    await launchUrl(launchUri);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -41,7 +41,7 @@ class _InboxState extends State<Inbox> {
                   .collection('usermessages')
                   .snapshots(),
               builder: (context, snapshot) {
-                final massages = snapshot.data!.docs.reversed.toList();
+                // final massages = snapshot.data?.docs.reversed.toList();
                 // Service provider collection id
                 // final collectionid = snapshot.data?.docs.id;
                 if (snapshot.connectionState == ConnectionState.waiting) {

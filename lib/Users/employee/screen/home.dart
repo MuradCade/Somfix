@@ -127,14 +127,32 @@ class _HomepageState extends State<Homepage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(left: 12, top: 18),
-                                      child: Text(
-                                        '0',
-                                        style: TextStyle(
-                                            fontSize: 26, color: Colors.white),
-                                      ),
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection("bookedservices")
+                                          .where('assignedtoemail',
+                                              isEqualTo: FirebaseAuth
+                                                  .instance.currentUser!.email)
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        } else {
+                                          return Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 12, top: 18),
+                                              child: Text(
+                                                snapshot.data!.docs.length
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.white),
+                                              ));
+                                        }
+                                      },
                                     ),
                                     Container(
                                       margin:
@@ -169,65 +187,7 @@ class _HomepageState extends State<Homepage> {
                       ],
                     ),
                   ),
-                  // ! card 2
-                  Card(
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 170,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              color: Color(0xFFF5f60ba),
-                              borderRadius: BorderRadius.circular(6)),
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(left: 12, top: 18),
-                                      child: Text(
-                                        '0',
-                                        style: TextStyle(
-                                            fontSize: 26, color: Colors.white),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(right: 12, top: 18),
-                                      child: SizedBox(
-                                        height: 40,
-                                        width: 40,
-                                        child: Card(
-                                          color: Colors.white,
-                                          child: Icon(
-                                            Icons.article,
-                                            size: 22,
-                                            color: Color(0xFFF5f60ba),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10, right: 38),
-                                  child: Text(
-                                    'Total Service',
-                                    style: TextStyle(
-                                        fontSize: 17, color: Colors.white),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+
                   // ! card 3
                   Card(
                     child: Column(
@@ -245,14 +205,38 @@ class _HomepageState extends State<Homepage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(left: 12, top: 18),
-                                      child: Text(
-                                        '\$0',
-                                        style: TextStyle(
-                                            fontSize: 26, color: Colors.white),
-                                      ),
+                                    StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection("payment")
+                                          .where('service_provider',
+                                              isEqualTo: 'deep@cleaning.com')
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        } else {
+                                          final result = snapshot
+                                              .data!.docs.reversed
+                                              .toList();
+                                          for (var result in result) {
+                                            return Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 12, top: 18),
+                                                child: Text(
+                                                  '\$' +
+                                                      result['total_amount']
+                                                          .toString(),
+                                                  style: TextStyle(
+                                                      fontSize: 26,
+                                                      color: Colors.white),
+                                                ));
+                                          }
+                                        }
+                                        return Container();
+                                      },
                                     ),
                                     Container(
                                       margin:
@@ -288,68 +272,10 @@ class _HomepageState extends State<Homepage> {
                     ),
                   ),
                   // ! card 4
-                  Card(
-                    child: Column(
-                      children: [
-                        Container(
-                          width: 170,
-                          height: 100,
-                          decoration: BoxDecoration(
-                              color: Color(0xFFF5f60ba),
-                              borderRadius: BorderRadius.circular(6)),
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(left: 12, top: 18),
-                                      child: Text(
-                                        '\$0',
-                                        style: TextStyle(
-                                            fontSize: 24, color: Colors.white),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin:
-                                          EdgeInsets.only(right: 12, top: 10),
-                                      child: SizedBox(
-                                        height: 40,
-                                        width: 40,
-                                        child: Card(
-                                          color: Colors.white,
-                                          child: Icon(
-                                            Icons.credit_card,
-                                            size: 22,
-                                            color: Color(0xFFF5f60ba),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10, right: 38),
-                                  child: Text(
-                                    'Wallet Detail',
-                                    style: TextStyle(
-                                        fontSize: 17, color: Colors.white),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
                 ],
               ),
               const SizedBox(
-                height: 29,
+                height: 38,
               ),
 
               Text(
@@ -386,7 +312,7 @@ class _HomepageState extends State<Homepage> {
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             final result = snapshot.data!.docs[index];
-                            final id = snapshot.data!.docs[index].id;
+                            // final id = snapshot.data!.docs[index].id;
 
                             return result['servicestatus'] == 'Verified'
                                 ? Container()

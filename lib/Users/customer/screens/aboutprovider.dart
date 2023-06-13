@@ -345,7 +345,7 @@ class _AboutproviderdetailState extends State<Aboutproviderdetail> {
 // provider serviceses
 class ProviderServices extends StatefulWidget {
   ProviderServices({super.key, this.provideremail});
-  String? provideremail;
+  final String? provideremail;
 
   @override
   State<ProviderServices> createState() => _ProviderServicesState();
@@ -364,7 +364,7 @@ class _ProviderServicesState extends State<ProviderServices> {
                   isEqualTo: '${widget.provideremail}'.toString())
               .snapshots(),
           builder: (context, snapshot) {
-            final servicesesprovider = snapshot.data?.docs.reversed.toList();
+            // final result = snapshot.data?.docs.reversed.toList();
             final collectionid = snapshot.data?.docs[0].id;
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -379,161 +379,176 @@ class _ProviderServicesState extends State<ProviderServices> {
                   ),
                 );
               } else {
-                for (var servicesesprovider in servicesesprovider!) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: InkWell(
-                          onTap: () {
-                            // print('clicked');
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SingleServicedetail(
-                                        serviceid: collectionid.toString(),
-                                        servicename:
-                                            servicesesprovider['Service_name'],
-                                        serviceprice:
-                                            servicesesprovider['Service_price'],
-                                        servicetype:
-                                            servicesesprovider['Service_type'],
-                                        serviceimg:
-                                            servicesesprovider['Service_image'],
-                                        serviceduration: servicesesprovider[
-                                            'Service_duration'],
-                                        servicestatus: servicesesprovider[
-                                            'Service_status'],
-                                        servicediscount: servicesesprovider[
-                                            'Servicec_discount'],
-                                        personcreatedservice:
-                                            servicesesprovider[
-                                                'person_created_service'],
-                                        servicecategory: servicesesprovider[
-                                            'Service_category'],
-                                        servicedescription: servicesesprovider[
-                                            'Service_description'],
-                                        serviceaddress: servicesesprovider[
-                                            'Service_address'],
-                                        serviceprovideremail:
-                                            servicesesprovider[
-                                                'person_created_service'])));
-                          },
-                          child: Column(
-                            children: [
-                              Container(
-                                  width: double.infinity,
-                                  height: 150,
-                                  decoration: BoxDecoration(
-                                      color: Colors.indigo,
-                                      borderRadius: BorderRadius.circular(12),
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              servicesesprovider[
-                                                  'Service_image']),
-                                          fit: BoxFit.cover)),
-                                  child: Column(
-                                    children: [
-                                      Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            width: 80,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            child: Center(
-                                              child: Text(
+                // for (var servicesesprovider in servicesesprovider!) {
+                return SizedBox(
+                  height: 100,
+                  child: ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      final servicesesprovider = snapshot.data!.docs[index];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: InkWell(
+                              onTap: () {
+                                // print('clicked');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SingleServicedetail(
+                                            serviceid: collectionid.toString(),
+                                            servicename: servicesesprovider[
+                                                'Service_name'],
+                                            serviceprice: servicesesprovider[
+                                                'Service_price'],
+                                            servicetype: servicesesprovider[
+                                                'Service_type'],
+                                            serviceimg: servicesesprovider[
+                                                'Service_image'],
+                                            serviceduration: servicesesprovider[
+                                                'Service_duration'],
+                                            servicestatus: servicesesprovider[
+                                                'Service_status'],
+                                            servicediscount: servicesesprovider[
+                                                'Servicec_discount'],
+                                            personcreatedservice:
                                                 servicesesprovider[
-                                                    'Service_category'],
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.indigo),
+                                                    'person_created_service'],
+                                            servicecategory: servicesesprovider[
+                                                'Service_category'],
+                                            servicedescription: servicesesprovider[
+                                                'Service_description'],
+                                            serviceaddress: servicesesprovider[
+                                                'Service_address'],
+                                            serviceprovideremail:
+                                                servicesesprovider[
+                                                    'person_created_service'])));
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                      width: double.infinity,
+                                      height: 150,
+                                      decoration: BoxDecoration(
+                                          color: Colors.indigo,
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                  servicesesprovider[
+                                                      'Service_image']),
+                                              fit: BoxFit.cover)),
+                                      child: Column(
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.topLeft,
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                width: 80,
+                                                height: 30,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                child: Center(
+                                                  child: Text(
+                                                    servicesesprovider[
+                                                        'Service_category'],
+                                                    style: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.indigo),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),
+                                        ],
+                                      )),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 140,
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[50],
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          blurRadius: 7,
+                                        )
+                                      ],
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                left: 8, top: 10),
+                                            width: 100,
+                                            height: 34,
+                                            decoration: BoxDecoration(
+                                                color: const Color(0xFFF5f60ba),
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: Center(
+                                                child: Text(
+                                              '\$' +
+                                                  servicesesprovider[
+                                                          'Service_price']
+                                                      .toString(),
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  letterSpacing: 1.2,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold),
+                                            )),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  )),
-                              Container(
-                                width: double.infinity,
-                                height: 140,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[50],
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withOpacity(0.2),
-                                      blurRadius: 7,
-                                    )
-                                  ],
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        margin: const EdgeInsets.only(
-                                            left: 8, top: 10),
-                                        width: 100,
-                                        height: 34,
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xFFF5f60ba),
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        child: Center(
-                                            child: Text(
-                                          '\$' +
-                                              servicesesprovider[
-                                                      'Service_price']
-                                                  .toString(),
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              letterSpacing: 1.2,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        )),
-                                      ),
-                                    ),
-                                    ListTile(
-                                      // mainAxisSize: MainAxisSize.min,
-                                      title: Text(
-                                        // result['Service_name'],
-                                        servicesesprovider['Service_name']
-                                            .toString(),
-                                        style: TextStyle(
-                                            fontSize: 19,
-                                            fontWeight: FontWeight.w500),
-                                      ),
+                                        ListTile(
+                                          // mainAxisSize: MainAxisSize.min,
+                                          title: Text(
+                                            // result['Service_name'],
+                                            servicesesprovider['Service_name']
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontSize: 19,
+                                                fontWeight: FontWeight.w500),
+                                          ),
 
-                                      subtitle: Text(
-                                        // result['Service_description'],
-                                        servicesesprovider[
-                                                'Service_description']
-                                            .toString(),
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w500),
-                                      ),
+                                          subtitle: Text(
+                                            // result['Service_description'],
+                                            servicesesprovider[
+                                                    'Service_description']
+                                                .toString(),
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ],
-                  );
-                }
-                return Container();
+                        ],
+                      );
+                    },
+                  ),
+                );
+
+                // return Container();
               }
             }
             // return Container();

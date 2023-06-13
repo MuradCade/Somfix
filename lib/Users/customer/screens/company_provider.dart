@@ -6,7 +6,7 @@ import '../../freelancer/screens/chatscreen.dart';
 
 class Companydetail extends StatefulWidget {
   Companydetail({super.key, this.provideremail});
-  String? provideremail;
+  final String? provideremail;
   @override
   State<Companydetail> createState() => _CompanydetailState();
 }

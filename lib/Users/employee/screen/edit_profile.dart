@@ -16,7 +16,7 @@ class _EditprofileState extends State<Editprofile> {
   List image = [];
   List certificate = [];
   String servicetype = '-1';
-  final currentuserid = FirebaseAuth.instance.currentUser!.uid;
+  final currentuserid = FirebaseAuth.instance.currentUser!.email;
   TextEditingController fullnamecontroler = TextEditingController();
   TextEditingController agecontroller = TextEditingController();
   TextEditingController phonecontroller = TextEditingController();
@@ -32,6 +32,7 @@ class _EditprofileState extends State<Editprofile> {
     'Painter'
   ];
   Editprofiledata updateprofile = Editprofiledata();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +54,7 @@ class _EditprofileState extends State<Editprofile> {
               StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('employe')
-                    .where('id', isEqualTo: currentuserid.toString())
+                    .where('email', isEqualTo: currentuserid.toString())
                     .snapshots(),
                 // initialData: initialData,
                 builder: (context, snapshot) {

@@ -93,7 +93,8 @@ class _ProfilescreenState extends State<Profilescreen> {
                                       ),
                                       image: DecorationImage(
                                           image: NetworkImage(
-                                              result['profile_image'])),
+                                              result['profile_image']),
+                                          fit: BoxFit.cover),
                                       borderRadius: BorderRadius.circular(150)),
                                   child: CircleAvatar(
                                     backgroundColor: Colors.transparent,

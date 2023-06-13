@@ -30,7 +30,7 @@ class _CheckloginState extends State<Checklogin> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(
-                  backgroundColor: Colors.yellow,
+                  backgroundColor: Colors.blue,
                 ),
               );
             } else if (snapshot.hasData) {
@@ -73,7 +73,7 @@ class _LogoutState extends State<Logout> {
                 // FirebaseAuth.instance.signOut();
 
                 final clients = snapshot.data?.docs.reversed.toList();
-                final useremail = FirebaseAuth.instance.currentUser!.email;
+                // final useremail = FirebaseAuth.instance.currentUser!.email;
                 for (var clients in clients!) {
                   // print("username is ${clients['role']}");
                   if (clients['role'] == 'admin') {

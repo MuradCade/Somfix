@@ -209,7 +209,7 @@ class _HomepageState extends State<Homepage> {
                                       stream: FirebaseFirestore.instance
                                           .collection("payment")
                                           .where('service_provider',
-                                              isEqualTo: 'deep@cleaning.com')
+                                              isEqualTo: 'deep@cleansing.com')
                                           .snapshots(),
                                       builder: (context, snapshot) {
                                         if (snapshot.connectionState ==
@@ -234,8 +234,17 @@ class _HomepageState extends State<Homepage> {
                                                       color: Colors.white),
                                                 ));
                                           }
+                                          return Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 12, top: 18),
+                                              child: Text(
+                                                '\$0',
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.white),
+                                              ));
                                         }
-                                        return Container();
+                                        // return Container();
                                       },
                                     ),
                                     Container(

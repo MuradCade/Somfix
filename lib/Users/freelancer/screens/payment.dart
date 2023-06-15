@@ -58,224 +58,288 @@ class _PaymentscreenState extends State<Paymentscreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('bookedservices')
-                        .where('provideremail',
-                            isEqualTo: FirebaseAuth.instance.currentUser!.email)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      // print(FirebaseAuth.instance.currentUser?.email);
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                            child: Center(
-                          child: CircularProgressIndicator(),
-                        ));
-                      } else {
+                      stream: FirebaseFirestore.instance
+                          .collection('bookedservices')
+                          .where('provideremail',
+                              isEqualTo:
+                                  FirebaseAuth.instance.currentUser!.email)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        // print(FirebaseAuth.instance.currentUser?.email);
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(
+                              child: Center(
                             child: CircularProgressIndicator(),
-                          );
+                          ));
                         } else {
-                          final result = snapshot.data!.docs.reversed.toList();
-                          for (var result in result) {
-                            if (result['payment_status'].toString() ==
-                                'Verified') {
-                              return Column(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Paymentdetail(
-                                                    id: result['service_id']
-                                                        .toString(),
-                                                    servicename:
-                                                        result['service_name']
+                          return SizedBox(
+                            height: 600,
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                final result = snapshot.data!.docs[index];
+                                if (result['payment_status'].toString() ==
+                                    'Verified') {
+                                  return Column(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Paymentdetail(
+                                                        id: result['service_id']
                                                             .toString(),
-                                                    date: result['date']
-                                                        .toString(),
-                                                    time: result['time']
-                                                        .toString(),
-                                                    description:
-                                                        result['description']
+                                                        servicename: result[
+                                                                'service_name']
                                                             .toString(),
-                                                    payment_status:
-                                                        result['payment_status']
+                                                        date: result['date']
                                                             .toString(),
-                                                    payment_method:
-                                                        result['payment_method']
+                                                        time: result['time']
                                                             .toString(),
-                                                    service_img:
-                                                        result['service_img']
+                                                        description: result[
+                                                                'description']
                                                             .toString(),
-                                                    totalamount:
-                                                        result['totalamount']
+                                                        payment_status: result[
+                                                                'payment_status']
                                                             .toString(),
-                                                    customer_id:
-                                                        result['client_id']
+                                                        payment_method: result[
+                                                                'payment_method']
                                                             .toString(),
-                                                  )));
-                                    },
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          width: double.infinity,
-                                          height: 50,
-                                          decoration: BoxDecoration(
-                                              color: Colors.indigo[50]),
+                                                        service_img: result[
+                                                                'service_img']
+                                                            .toString(),
+                                                        totalamount: result[
+                                                                'totalamount']
+                                                            .toString(),
+                                                        customer_id:
+                                                            result['client_id']
+                                                                .toString(),
+                                                      )));
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(12.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  // ignore: prefer_const_literals_to_create_immutables
+                                              Container(
+                                                width: double.infinity,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.indigo[50]),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    const Text(
-                                                      'Service Id',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      '#' +
-                                                          result['service_id']
-                                                              .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          color: Colors.indigo,
-                                                          fontWeight:
-                                                              FontWeight.bold),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              12.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        // ignore: prefer_const_literals_to_create_immutables
+                                                        children: [
+                                                          const Text(
+                                                            'Service Id',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(
+                                                            '#' +
+                                                                result['service_id']
+                                                                    .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                color: Colors
+                                                                    .indigo,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          width: double.infinity,
-                                          height: 50,
-                                          decoration: const BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 243, 240, 240)),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(12.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                              Container(
+                                                width: double.infinity,
+                                                height: 50,
+                                                decoration: const BoxDecoration(
+                                                    color: Color.fromARGB(
+                                                        255, 243, 240, 240)),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Payment Status',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      result['payment_status']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.indigo),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              12.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'Payment Status',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(
+                                                            result['payment_status']
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .indigo),
+                                                          )
+                                                        ],
+                                                      ),
                                                     )
                                                   ],
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          width: double.infinity,
-                                          height: 50,
-                                          decoration: const BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 243, 240, 240)),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(12.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                              ),
+                                              Container(
+                                                width: double.infinity,
+                                                height: 50,
+                                                decoration: const BoxDecoration(
+                                                    color: Color.fromARGB(
+                                                        255, 243, 240, 240)),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Payment Method',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      result['payment_method']
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.indigo),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              12.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'Payment Method',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(
+                                                            result['payment_method']
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .indigo),
+                                                          )
+                                                        ],
+                                                      ),
                                                     )
                                                   ],
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Container(
-                                          width: double.infinity,
-                                          height: 50,
-                                          decoration: const BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 243, 240, 240)),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(12.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
+                                              ),
+                                              Container(
+                                                width: double.infinity,
+                                                height: 50,
+                                                decoration: const BoxDecoration(
+                                                    color: Color.fromARGB(
+                                                        255, 243, 240, 240)),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Amount',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      '\$' +
-                                                          result['totalamount']
-                                                              .toString(),
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.indigo),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              12.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            'Amount',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(
+                                                            '\$' +
+                                                                result['totalamount']
+                                                                    .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .indigo),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                width: double.infinity,
+                                                height: 50,
+                                                decoration: const BoxDecoration(
+                                                    color: Color.fromARGB(
+                                                        255, 243, 240, 240)),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              12.0),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: const [
+                                                          Text(
+                                                            'Date',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                          Text(
+                                                            '2-02-2023',
+                                                            style: TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .indigo),
+                                                          )
+                                                        ],
+                                                      ),
                                                     )
                                                   ],
                                                 ),
@@ -283,59 +347,17 @@ class _PaymentscreenState extends State<Paymentscreen> {
                                             ],
                                           ),
                                         ),
-                                        Container(
-                                          width: double.infinity,
-                                          height: 50,
-                                          decoration: const BoxDecoration(
-                                              color: Color.fromARGB(
-                                                  255, 243, 240, 240)),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(12.0),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: const [
-                                                    Text(
-                                                      'Date',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    Text(
-                                                      '2-02-2023',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.indigo),
-                                                    )
-                                                  ],
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              );
-                            } else {
-                              return Center(child: Text('Nothing to display'));
-                            }
-                          }
-                          return Container();
+                                      )
+                                    ],
+                                  );
+                                } else {
+                                  // return Center(child: Text('Nothing to display'));
+                                }
+                              },
+                            ),
+                          );
                         }
-                      }
-                    },
-                  )
+                      })
                 ],
               ),
             )),

@@ -154,22 +154,10 @@ class _ServicesdataState extends State<Servicesdata> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('service').snapshots(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(
-              color: Colors.blue,
-            ),
-          );
-        } else {
-          if (snapshot.data!.docs.isEmpty) {
-            return Center(
-              child: Text(
-                'There is no Service to be displayed',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-              ),
-            );
+        stream: FirebaseFirestore.instance.collection('service').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
           } else {
             return SizedBox(
               height: 300,
@@ -326,8 +314,6 @@ class _ServicesdataState extends State<Servicesdata> {
               ),
             );
           }
-        }
-      },
-    );
+        });
   }
 }

@@ -59,6 +59,9 @@ class _MessageinboxState extends State<Messageinbox> {
                       itemBuilder: (context, index) {
                         final collectionsid = snapshot.data!.docs[index].id;
                         final result = snapshot.data!.docs[index];
+
+                        // print(collectionsid.toString());
+                        // return Text(collectionsid.toString());
                         return Customerinfo(
                           collectionid: collectionsid.toString(),
                           sendtime: result['sendtime'].toString(),
@@ -84,9 +87,9 @@ class Customerinfo extends StatefulWidget {
     required this.last_msg,
     required this.sendtime,
   });
-  String collectionid;
-  String last_msg;
-  String sendtime;
+  final String collectionid;
+  final String last_msg;
+  final String sendtime;
   @override
   State<Customerinfo> createState() => _CustomerinfoState();
 }
@@ -186,18 +189,3 @@ class _CustomerinfoState extends State<Customerinfo> {
     );
   }
 }
-
-// Future<String> getcustomerfullnameandimage(String customerid) async {
-//   String output = 'helo';
-//   // final snapshot = await FirebaseFirestore.instance
-//   //     .collection('customer')
-//   //     .where('id', isEqualTo: customerid.toString())
-//   //     .get()
-//   //     .then((value) {
-//   //   // output = document['fullname'];
-//   //   output = value.docs.first['fullname'];
-//   // });
-//   print(customerid.toString());
-//   // return print();
-//   return output;
-// }

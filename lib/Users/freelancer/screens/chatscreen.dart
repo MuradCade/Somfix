@@ -60,7 +60,7 @@ class _ChatscreenState extends State<Chatscreen> {
                   .collection('usermessages')
                   .doc(widget.customerid)
                   .collection('chat')
-                  // .orderBy('date', descending: false)
+                  .orderBy('date', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

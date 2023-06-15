@@ -31,7 +31,7 @@ class _WallethistoryState extends State<Wallethistory> {
               StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection('payment')
-                    .where('client_email', isEqualTo: currentuseremail)
+                    .where('service_provider', isEqualTo: currentuseremail)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {

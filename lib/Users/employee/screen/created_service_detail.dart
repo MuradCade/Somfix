@@ -371,11 +371,7 @@ class _CreatedservicedetailscreenState
                                             fontWeight: FontWeight.bold),
                                       )),
                                     )
-                                  : result['servicestatus'] == 'Assigned' &&
-                                              result['assigner_response'] ==
-                                                  'null' ||
-                                          result['servicestatus'] ==
-                                              'Re-Assigned'
+                                  : result['servicestatus'] == 'Accepted'
                                       ? Container(
                                           margin: const EdgeInsets.only(
                                               left: 34.0, top: 12),
